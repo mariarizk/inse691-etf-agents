@@ -64,7 +64,7 @@ class RiskAgent:
             score += 1
 
         return score
-    s
+    
     def summary(self):
         # Ensure data is loaded
         if self.data is None:

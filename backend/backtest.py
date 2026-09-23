@@ -44,17 +44,23 @@ class Backtester:
         return pd.DataFrame(self.results)
     
     def compute_performance(self, df):
-        # Ensure numeric types
-        df['return'] = df['close'].pct_change().astype(float)
-        df['strategy_return'] = (df['return'] * (df['decision'] == 'BUY')).astype(float)
+        # Initialize position
+        position = 0
+        positions = []
 
-        # Equity curve
-        df['equity_curve'] = (1 + df['strategy_return']).cumprod()
+        for decision in df['decision']:
+            if decision == 'BUY':
+                position = 1
+            elif decision == 'SELL':
+                position = 0
+            # HOLD keeps the current position
+            positions.append(position)
 
-        # Drawdown
-        df['drawdown'] = df['equity_curve'] / df['equity_curve'].cummax() - 1
+        df['position'] = positions
 
-        return df
+        # Strategy return = market return * position
+        df['strategy_return'] = df['return'] * df['position']
+
 
     def plot_results(self, df):
         plt.figure(figsize=(12,6))
