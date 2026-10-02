@@ -32,7 +32,17 @@ Measures volatility and classifies market risk:
 Combines all agent outputs and produces the final trading action:
 - `1` → BUY  
 - `0` → HOLD  
-- `-1` → SELL  
+- `-1` → SELL
+  
+## 📁 Project Structure
+inse691-etf-agents/
+│
+├── agents/          # All agent logic
+├── backend/         # Pipeline + backtester
+├── scripts/         # Run pipeline, backtest, and plots
+├── data/            # QQQ.csv price data
+└── main.py
+
 
 
 ## ▶️ How to Run the Project
@@ -44,24 +54,15 @@ venv\Scripts\activate
 Mac/Linux:
 source venv/bin/activate
 
-Run the MAS pipeline
+"""Run the MAS pipeline"""
 python scripts/run_pipeline.py
-Run the backtest
+"""Run the backtest"""
 python scripts/run_backtest.py
-Generate plots
+"""Generate plots"""
 python scripts/plot_equity.py
 python scripts/plot_drawdown.py
 python scripts/plot_returns_histogram.py
 python scripts/plot_rolling_metrics.py
 python scripts/compare_vs_buyhold.py
 
-
-## 📁 Project Structure
-inse691-etf-agents/
-│
-├── agents/          # All agent logic
-├── backend/         # Pipeline + backtester
-├── scripts/         # Run pipeline, backtest, and plots
-├── data/            # QQQ.csv price data
-└── main.py
 
