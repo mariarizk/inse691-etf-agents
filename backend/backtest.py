@@ -44,7 +44,15 @@ class Backtester:
         return pd.DataFrame(self.results)
     
     def compute_performance(self, df):
-        # Initialize position
+        # 1. Compute returns first
+        df['return'] = df['close'].pct_change()
+
+        # 2. Convert nested Series → float safely
+        df['return'] = df['return'].apply(
+            lambda x: float(x.iloc[0]) if hasattr(x, "iloc") else float(x)
+        )
+
+        # 3. Build position tracking
         position = 0
         positions = []
 
@@ -53,13 +61,20 @@ class Backtester:
                 position = 1
             elif decision == 'SELL':
                 position = 0
-            # HOLD keeps the current position
             positions.append(position)
 
         df['position'] = positions
 
-        # Strategy return = market return * position
+        # 4. Strategy return
         df['strategy_return'] = df['return'] * df['position']
+
+        # 5. Equity curve
+        df['equity_curve'] = (1 + df['strategy_return']).cumprod()
+
+        # 6. Drawdown
+        df['drawdown'] = df['equity_curve'] / df['equity_curve'].cummax() - 1
+
+        return df
 
 
     def plot_results(self, df):

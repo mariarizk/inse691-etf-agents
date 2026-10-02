@@ -15,38 +15,33 @@ class DecisionAgent:
         div_score = diversification.get("final_diversification_score", 0)
 
         # -----------------------------
+        # 0. Technical overrides (ALWAYS FIRST)
+        # -----------------------------
+        if technical_signal == "BUY":
+            return {"decision": "BUY", "confidence": 70}
+
+        if technical_signal == "SELL":
+            return {"decision": "SELL", "confidence": 70}
+
+        # -----------------------------
         # 1. Strong BUY override
         # -----------------------------
-        if technical_signal == "BUY" and bullish > bearish:
-            return {"decision": "BUY", "confidence": 70}
+        if bullish > bearish:
+            return {"decision": "BUY", "confidence": 60}
 
         # -----------------------------
         # 2. Strong SELL override
         # -----------------------------
-        if technical_signal == "SELL" and bearish > bullish:
-            return {"decision": "SELL", "confidence": 70}
+        if bearish > bullish:
+            return {"decision": "SELL", "confidence": 60}
 
         # -----------------------------
-        # 3. Moderate BUY conditions
-        # -----------------------------
-        if bullish > bearish and conflicts <= 1:
-            if sentiment_score > 0 and risk_score <= 3:
-                return {"decision": "BUY", "confidence": 55}
-
-        # -----------------------------
-        # 4. Moderate SELL conditions
-        # -----------------------------
-        if bearish > bullish and conflicts <= 1:
-            if sentiment_score < 0 or risk_score >= 4:
-                return {"decision": "SELL", "confidence": 55}
-
-        # -----------------------------
-        # 5. High conflict → HOLD
+        # 3. High conflict → HOLD
         # -----------------------------
         if conflicts >= 2:
             return {"decision": "HOLD", "confidence": 40}
 
         # -----------------------------
-        # 6. Neutral fallback
+        # 4. Neutral fallback
         # -----------------------------
         return {"decision": "HOLD", "confidence": 50}

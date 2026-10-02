@@ -1,78 +1,95 @@
 import yfinance as yf
-import pandas as pd
 import numpy as np
+import pandas as pd
+
+from agents.balance_sheet_agent import BalanceSheetAgent
+
 
 class RiskAgent:
-    def __init__(self, ticker):
-        self.ticker = ticker
-        self.data = None
-
-    def fetch_history(self, period="1y"):
-        try:
-            self.data = yf.download(self.ticker, period=period)
-            return True
-        except Exception as e:
-            print("Error fetching history:", e)
-            return False
-
-    def volatility(self):
-        if self.data is None:
-            return None
-        
-        returns = self.data["Close"].pct_change(fill_method=None)
-        return returns.std() * np.sqrt(252)
-
-    def max_drawdown(self):
-        if self.data is None:
-            return None
-
-        close = self.data["Close"]
-        rolling_max = close.cummax()
-        drawdown = (close - rolling_max) / rolling_max
-        return drawdown.min()
-
-    def leverage_decay(self):
-        if self.ticker not in ["TQQQ", "SQQQ"]:
-            return None
-
-        returns = self.data["Close"].pct_change()
-        decay = (returns.std() ** 2) * 3  # leverage factor
-        return decay
-
-    def risk_score(self):
-        vol = self.volatility()
-        dd = self.max_drawdown()
-
-        # Convert Series → float
-        if hasattr(vol, "iloc"):
-            vol = vol.iloc[0]
-        if hasattr(dd, "iloc"):
-            dd = dd.iloc[0]
-
-        score = 0
-
-        # Volatility scoring
-        if vol > 0.25:
-            score += 2
-        elif vol > 0.15:
-            score += 1
-
-        # Drawdown scoring
-        if dd < -0.20:
-            score += 2
-        elif dd < -0.10:
-            score += 1
-
-        return score
-    
-    def summary(self):
-        # Ensure data is loaded
-        if self.data is None:
-            self.fetch_history()
-
-        return {
-            "volatility": self.volatility(),
-            "max_drawdown": self.max_drawdown(),
-            "leverage_decay": self.leverage_decay(),
-            "risk_score": self.risk_score()
+    def __init__(self, ratio_thresholds, balance_sheet_thresholds):
+        """
+        ratio_thresholds example:
+        {
+            "beta": {"good": 1.0, "neutral": 1.2},
+            "volatility": {"good": 0.02, "neutral": 0.04},
+            "drawdown": {"good": -0.10, "neutral": -0.20},
+            "debt_to_equity": {"good": 1.0, "neutral": 2.0},
+            "current_ratio": {"good": 1.5, "neutral": 1.0}
         }
+        """
+        self.thresholds = ratio_thresholds
+        self.bs_agent = BalanceSheetAgent(balance_sheet_thresholds)
+
+    def score_inverse(self, value, thresholds):
+        # lower risk is better
+        if value is None or np.isnan(value):
+            return 1
+        if value <= thresholds["good"]:
+            return 3
+        elif value <= thresholds["neutral"]:
+            return 2
+        return 1
+
+    def safe_div(self, a, b):
+        if a is None or b in (None, 0):
+            return None
+        return a / b
+
+    def analyze_company(self, ticker):
+        try:
+            t = yf.Ticker(ticker)
+            info = t.info if hasattr(t, "info") else t.get_info()
+
+            # Market risk
+            beta = info.get("beta")
+
+            # Price history
+            hist = t.history(period="1y")
+            hist["returns"] = hist["Close"].pct_change()
+
+            volatility = hist["returns"].std()
+
+            # Drawdown
+            rolling_max = hist["Close"].cummax()
+            dd = (hist["Close"] - rolling_max) / rolling_max
+            max_drawdown = dd.min()
+
+            # Financial risk from BalanceSheetAgent
+            bs = self.bs_agent.analyze_company(ticker)
+
+            debt_to_equity = bs.get("debt_to_equity")
+            current_ratio = bs.get("current_ratio")
+
+            # Scores
+            beta_score = self.score_inverse(beta, self.thresholds["beta"])
+            volatility_score = self.score_inverse(volatility, self.thresholds["volatility"])
+            drawdown_score = self.score_inverse(abs(max_drawdown), self.thresholds["drawdown"])
+            debt_score = self.score_inverse(debt_to_equity, self.thresholds["debt_to_equity"])
+            liquidity_score = self.score_inverse(current_ratio, self.thresholds["current_ratio"])
+
+            risk_score = float(
+                np.mean([
+                    beta_score,
+                    volatility_score,
+                    drawdown_score,
+                    debt_score,
+                    liquidity_score
+                ])
+            )
+
+            return {
+                "beta": beta,
+                "volatility": volatility,
+                "max_drawdown": max_drawdown,
+                "debt_to_equity": debt_to_equity,
+                "current_ratio": current_ratio,
+                "beta_score": beta_score,
+                "volatility_score": volatility_score,
+                "drawdown_score": drawdown_score,
+                "debt_score": debt_score,
+                "liquidity_score": liquidity_score,
+                "risk_score": risk_score
+            }
+
+        except Exception as e:
+            return {"error": str(e), "risk_score": 1}
