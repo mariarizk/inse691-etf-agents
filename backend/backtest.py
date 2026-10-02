@@ -1,105 +1,48 @@
 import pandas as pd
-import numpy as np
-from backend.pipeline import ETFPipeline
-import matplotlib.pyplot as plt
-import os
 
 class Backtester:
-    def __init__(self, ticker, start_date, end_date):
-        self.ticker = ticker
-        self.start_date = start_date
-        self.end_date = end_date
-        self.results = []
+    """
+    Backtester (MAS Version)
+    ------------------------
+    Supports BUY (1), HOLD (0), SELL (-1) signals.
+    Computes positions, daily returns, and equity curve.
+    """
 
-    def load_data(self):
-        import yfinance as yf
-        data = yf.download(self.ticker, start=self.start_date, end=self.end_date)
-        data = data[['Close']]
-        data.dropna(inplace=True)
-        return data
+    def __init__(self, price_df, decisions):
+        self.df = price_df.copy()
+        self.decisions = decisions
+
+    def _extract_actions(self):
+        """Convert decision list into a position series."""
+        # decisions is a list of dicts: {"action": int}
+        actions = [d["action"] for d in self.decisions]
+
+        return pd.Series(actions, index=self.df.index)
+
+    def _compute_returns(self, positions):
+        """Compute daily strategy returns."""
+        # daily returns of QQQ
+        self.df["returns"] = self.df["Close"].pct_change()
+
+        # strategy return = position[t-1] * daily_return[t]
+        strat_returns = positions.shift(1) * self.df["returns"]
+        strat_returns.fillna(0, inplace=True)
+
+        return strat_returns
+
+    def _compute_equity_curve(self, strat_returns):
+        """Compute cumulative equity curve."""
+        equity = (1 + strat_returns).cumprod()
+        return equity
 
     def run(self):
-        data = self.load_data()
+        """Main entry point."""
+        positions = self._extract_actions()
+        strat_returns = self._compute_returns(positions)
+        equity_curve = self._compute_equity_curve(strat_returns)
 
-        for date in data.index:
-            # Rolling window slice up to current date
-            window_data = data.loc[:date]
-
-            # Run full pipeline
-            pipeline = ETFPipeline(self.ticker)
-            output = pipeline.run()
-
-            # Store results
-            self.results.append({
-                "date": date,
-                "close": window_data.iloc[-1]['Close'],
-                "decision": output["decision"]["decision"],
-                "confidence": output["decision"]["confidence"],
-                "risk_score": output["risk"]["risk_score"],
-                "bullish": len(output["debate"]["bullish_arguments"]),
-                "bearish": len(output["debate"]["bearish_arguments"]),
-                "conflicts": len(output["debate"]["conflicts"])
-            })
-
-        return pd.DataFrame(self.results)
-    
-    def compute_performance(self, df):
-        # 1. Compute returns first
-        df['return'] = df['close'].pct_change()
-
-        # 2. Convert nested Series → float safely
-        df['return'] = df['return'].apply(
-            lambda x: float(x.iloc[0]) if hasattr(x, "iloc") else float(x)
-        )
-
-        # 3. Build position tracking
-        position = 0
-        positions = []
-
-        for decision in df['decision']:
-            if decision == 'BUY':
-                position = 1
-            elif decision == 'SELL':
-                position = 0
-            positions.append(position)
-
-        df['position'] = positions
-
-        # 4. Strategy return
-        df['strategy_return'] = df['return'] * df['position']
-
-        # 5. Equity curve
-        df['equity_curve'] = (1 + df['strategy_return']).cumprod()
-
-        # 6. Drawdown
-        df['drawdown'] = df['equity_curve'] / df['equity_curve'].cummax() - 1
-
-        return df
-
-
-    def plot_results(self, df):
-        plt.figure(figsize=(12,6))
-        plt.plot(df['equity_curve'], label='Strategy Equity Curve')
-        plt.title(f"{self.ticker} Strategy Backtest")
-        plt.legend()
-
-        # SAVE EQUITY CURVE HERE
-        plt.savefig(f"data/equity_curve_{self.ticker}.png")
-
-        plt.show()
-
-        plt.figure(figsize=(12,4))
-        plt.plot(df['drawdown'], label='Drawdown', color='red')
-        plt.title("Drawdown")
-        plt.legend()
-
-        # SAVE DRAWDOWN HERE
-        plt.savefig(f"data/drawdown_{self.ticker}.png")
-
-        plt.show()
-
-
-    def save_results(self, df):
-        path = os.path.join("data", f"backtest_{self.ticker}.csv")
-        df.to_csv(path, index=False)
-        print(f"Saved backtest results to {path}")
+        return {
+            "positions": positions,
+            "returns": strat_returns,
+            "equity_curve": equity_curve
+        }

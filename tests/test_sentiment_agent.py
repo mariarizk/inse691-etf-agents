@@ -6,14 +6,10 @@ from agents.sentiment_agent import SentimentAgent
 agent = SentimentAgent()
 
 print("Fetching news...")
-if agent.fetch_news():
-    print("News fetched!\n")
-
-    print("Headline Sentiment Score:")
-    print(agent.headline_sentiment(), "\n")
-
-    print("Sentiment Classification:")
-    print(agent.classify_sentiment(), "\n")
-
+if agent.fetch_news("QQQ"):
+    print("News fetched!")
+    print("Sentiment Score:", agent.headline_sentiment())
+    print("Sentiment Classification:", agent.classify_sentiment())
 else:
     print("Failed to fetch news.")
+
