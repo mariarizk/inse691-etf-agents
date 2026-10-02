@@ -33,16 +33,6 @@ Combines all agent outputs and produces the final trading action:
 - `1` → BUY  
 - `0` → HOLD  
 - `-1` → SELL
-  
-## 📁 Project Structure
-inse691-etf-agents/
-│
-├── agents/          # All agent logic
-├── backend/         # Pipeline + backtester
-├── scripts/         # Run pipeline, backtest, and plots
-├── data/            # QQQ.csv price data
-└── main.py
-
 
 
 ## ▶️ How to Run the Project
