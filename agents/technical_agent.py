@@ -1,11 +1,26 @@
+from config import AGENT_CONFIG
+
+
 class TechnicalAgent:
+    name = "technical"
+
+    def __init__(self, settings=None):
+        self.settings = settings or AGENT_CONFIG["technical"]
+
     def analyze(self, price_df):
-        short_ma = price_df["Close"].rolling(10).mean().iloc[-1]
-        long_ma = price_df["Close"].rolling(30).mean().iloc[-1]
+        close = price_df["Close"]
+        short_ma = close.rolling(self.settings["short_window"]).mean().iloc[-1]
+        long_ma = close.rolling(self.settings["long_window"]).mean().iloc[-1]
 
         if short_ma > long_ma:
-            return "bullish"
+            signal = "bullish"
         elif short_ma < long_ma:
-            return "bearish"
+            signal = "bearish"
         else:
-            return "neutral"
+            signal = "neutral"
+
+        return {
+            "signal": signal,
+            "short_ma": float(short_ma),
+            "long_ma": float(long_ma),
+        }

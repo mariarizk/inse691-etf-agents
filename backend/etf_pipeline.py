@@ -1,29 +1,29 @@
+from agents.blackboard import Blackboard
 from agents.technical_agent import TechnicalAgent
 from agents.sentiment_agent import SentimentAgent
 from agents.risk_agent import RiskAgent
-from agents.decision_agent import DecisionAgent
+from agents.decision_agent import ANALYST_AGENTS, DecisionAgent
+
 
 class ETFPipeline:
-    def __init__(self, price_df, headlines):
-        self.price_df = price_df
-        self.headlines = headlines
+    """Runs the analyst agents, shares their results on a blackboard, then decides."""
 
-        self.tech_agent = TechnicalAgent()
-        self.sent_agent = SentimentAgent()
-        self.risk_agent = RiskAgent()
+    def __init__(self, price_df):
+        self.price_df = price_df
+        self.blackboard = Blackboard()
+
+        self.analysts = (TechnicalAgent(), SentimentAgent(), RiskAgent())
         self.dec_agent = DecisionAgent()
 
     def run(self):
-        tech = self.tech_agent.analyze(self.price_df)
-        sentiment = self.sent_agent.analyze(self.price_df)
-        risk = self.risk_agent.analyze(self.price_df)
+        for agent in self.analysts:
+            self.blackboard.write(agent.name, agent.analyze(self.price_df))
 
-        decision = self.dec_agent.decide(tech, sentiment, risk)
+        missing = self.blackboard.missing(ANALYST_AGENTS)
+        if missing:
+            raise RuntimeError(f"Decision blocked, missing agent outputs: {missing}")
 
-        return {
-            "technical": tech,
-            "sentiment": sentiment,
-            "risk": risk,
-            "decision": {"action": decision}
+        decision = self.dec_agent.decide_from_blackboard(self.blackboard)
+        self.blackboard.write(self.dec_agent.name, decision)
 
-        }
+        return dict(self.blackboard.all())

@@ -1,41 +1,41 @@
-CONFIG = {
-    "balance_sheet": {
-        "current_ratio_min": 1.0,
-        "debt_to_equity_max": 2.0
-    },
+import os
+from pathlib import Path
 
-    "income_statement": {
-        "revenue_growth_min": 0.0,
-        "net_margin_min": 0.05
-    },
+from dotenv import load_dotenv
 
-    "cashflow": {
-        "operating_cf_min": 0,
-        "free_cf_min": 0
-    },
+ROOT_DIR = Path(__file__).resolve().parent
+DATA_DIR = ROOT_DIR / "data"
+PRICE_FILE = DATA_DIR / "QQQ.csv"
 
-    "valuation": {
-        "pe_max": 40,
-        "pb_max": 10
-    },
+load_dotenv(ROOT_DIR / ".env")
 
-    "efficiency": {
-        "roe_min": 0.05,
-        "roa_min": 0.02
+AGENT_CONFIG = {
+    "technical": {
+        "short_window": 10,
+        "long_window": 30,
     },
-
-    "risk": {
-        "volatility_max": 0.05,
-        "max_drawdown_max": 0.30
-    },
-
     "sentiment": {
-        "positive_threshold": 0.2,
-        "negative_threshold": -0.2
+        "positive_return": 0.01,
+        "negative_return": -0.01,
     },
+    "risk": {
+        "window": 20,
+        "low_volatility": 0.01,
+        "medium_volatility": 0.02,
+    },
+}
 
-    "diversification": {
-        "sector_weight_max": 0.4,
-        "leverage_penalty": 2
-    }
+LLM_CONFIG = {
+    "api_key": os.getenv("GEMINI_API_KEY", ""),
+    "base_url": os.getenv(
+        "LLM_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai"
+    ).rstrip("/"),
+    "model": os.getenv("LLM_MODEL", "gemini-3.5-flash-lite"),
+    "temperature": 0.2,
+    "max_output_tokens": 800,
+    "timeout_seconds": 60,
+    "max_retries": 2,
+    "retry_wait_seconds": 10,
+    "explanation_max_words": 120,
+    "report_max_words": 250,
 }
