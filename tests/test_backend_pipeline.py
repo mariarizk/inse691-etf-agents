@@ -2,66 +2,36 @@ import sys
 import os
 import unittest
 
-# Allow imports from project root
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import pandas as pd
+
+from agents.decision_agent import ACTION_LABELS
 from backend.etf_pipeline import ETFPipeline
-from config import CONFIG
 
 
-class TestETFMultiAgentPipeline(unittest.TestCase):
+class TestETFPipeline(unittest.TestCase):
 
     def setUp(self):
-        # FIX: your pipeline requires a config argument
-        self.pipeline = ETFPipeline(CONFIG)
+        values = [100 + i for i in range(40)]
+        self.price_df = pd.DataFrame(
+            {"Close": values}, index=pd.date_range("2025-01-01", periods=len(values))
+        )
 
-    def test_pipeline_run(self):
-        """Test full MAS pipeline output structure."""
-        result = self.pipeline.run("AAPL")
+    def test_blackboard_holds_every_agent_output(self):
+        result = ETFPipeline(self.price_df).run()
 
-        # === Top-level keys ===
-        self.assertIn("agents", result, "Missing 'agents' section")
-        self.assertIn("debate", result, "Missing 'debate' section")
-        self.assertIn("decision", result, "Missing 'decision' section")
-        self.assertIn("status", result, "Missing 'status' section")
+        for agent in ("technical", "sentiment", "risk", "decision"):
+            self.assertIn(agent, result)
 
-        # === Agent-level keys ===
-        required_agents = [
-            "fundamental",
-            "technical",
-            "risk",
-            "sentiment",
-            "diversification"
-        ]
+        for agent in ("technical", "sentiment", "risk"):
+            self.assertIn("signal", result[agent])
 
-        for key in required_agents:
-            self.assertIn(
-                key,
-                result["agents"],
-                f"Missing agent output: {key}"
-            )
+    def test_decision_is_a_valid_action(self):
+        decision = ETFPipeline(self.price_df).run()["decision"]
 
-        # === Debate Agent Output ===
-        debate = result["debate"]
-        self.assertIn("bullish_arguments", debate)
-        self.assertIn("bearish_arguments", debate)
-        self.assertIn("conflicts", debate)
-
-        # === Decision Agent Output ===
-        decision = result["decision"]
-        self.assertIn("decision", decision)
-        self.assertIn("confidence", decision)
-
-        # === Coordinator Status ===
-        status = result["status"]
-        self.assertIn("complete", status)
-        self.assertIn("missing", status)
-
-        # === Print for debugging ===
-        print("\n=== Pipeline Output ===")
-        print("Agents:", result["agents"].keys())
-        print("Decision:", decision)
-        print("Status:", status)
+        self.assertIn(decision["action"], ACTION_LABELS)
+        self.assertEqual(decision["label"], ACTION_LABELS[decision["action"]])
 
 
 if __name__ == "__main__":

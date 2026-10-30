@@ -1,83 +1,37 @@
 import sys, os
 import unittest
 
-# Add project root to Python path
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(ROOT_DIR)
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from agents.blackboard import Blackboard
 from agents.decision_agent import DecisionAgent
+
 
 class TestDecisionAgent(unittest.TestCase):
 
     def setUp(self):
         self.agent = DecisionAgent()
 
-        self.mock_fundamental = {"score": 3}
-        self.mock_technical_buy = {"signal": "BUY"}
-        self.mock_technical_sell = {"signal": "SELL"}
-        self.mock_technical_hold = {"signal": "HOLD"}
+    def test_buy_when_all_agents_agree(self):
+        self.assertEqual(self.agent.decide("bullish", "positive", "low"), 1)
 
-        self.mock_risk_low = {"risk_score": 2}
-        self.mock_risk_high = {"risk_score": 5}
+    def test_sell_on_any_bearish_signal(self):
+        self.assertEqual(self.agent.decide("bearish", "positive", "low"), -1)
+        self.assertEqual(self.agent.decide("bullish", "negative", "low"), -1)
+        self.assertEqual(self.agent.decide("bullish", "positive", "high"), -1)
 
-        self.mock_sentiment_positive = {"sentiment_score": 1}
-        self.mock_sentiment_negative = {"sentiment_score": -1}
+    def test_hold_on_mixed_signals(self):
+        self.assertEqual(self.agent.decide("neutral", "positive", "low"), 0)
+        self.assertEqual(self.agent.decide("bullish", "positive", "medium"), 0)
+        self.assertEqual(self.agent.decide("bullish", "neutral", "low"), 0)
 
-        self.mock_diversification = {"score": 2}
+    def test_reads_signals_from_blackboard(self):
+        board = Blackboard()
+        board.write("technical", {"signal": "bullish"})
+        board.write("sentiment", {"signal": "positive"})
+        board.write("risk", {"signal": "low"})
 
-    def test_buy_signal(self):
-        mock_debate = {
-            "bullish_arguments": ["Strong momentum"],
-            "bearish_arguments": [],
-            "conflicts": []
-        }
-
-        result = self.agent.decide(
-            self.mock_fundamental,
-            self.mock_technical_buy,
-            self.mock_risk_low,
-            self.mock_sentiment_positive,
-            self.mock_diversification,
-            mock_debate
-        )
-
-        self.assertEqual(result["decision"], "BUY")
-
-    def test_sell_signal(self):
-        mock_debate = {
-            "bullish_arguments": [],
-            "bearish_arguments": ["Bad earnings"],
-            "conflicts": []
-        }
-
-        result = self.agent.decide(
-            self.mock_fundamental,
-            self.mock_technical_sell,
-            self.mock_risk_high,
-            self.mock_sentiment_negative,
-            self.mock_diversification,
-            mock_debate
-        )
-
-        self.assertEqual(result["decision"], "SELL")
-
-    def test_hold_on_conflict(self):
-        mock_debate = {
-            "bullish_arguments": ["Good news"],
-            "bearish_arguments": ["Bad news"],
-            "conflicts": ["Mixed signals", "Volatility"]
-        }
-
-        result = self.agent.decide(
-            self.mock_fundamental,
-            self.mock_technical_hold,
-            self.mock_risk_low,
-            self.mock_sentiment_positive,
-            self.mock_diversification,
-            mock_debate
-        )
-
-        self.assertEqual(result["decision"], "HOLD")
+        self.assertEqual(self.agent.decide_from_blackboard(board), {"action": 1, "label": "BUY"})
 
 
 if __name__ == "__main__":

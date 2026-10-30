@@ -1,46 +1,36 @@
-import unittest
 import sys, os
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(ROOT_DIR)
+import unittest
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import pandas as pd
+
 from agents.risk_agent import RiskAgent
+
+
+def prices(daily_returns):
+    values = [100.0]
+    for ret in daily_returns:
+        values.append(values[-1] * (1 + ret))
+    return pd.DataFrame({"Close": values}, index=pd.date_range("2025-01-01", periods=len(values)))
+
 
 class TestRiskAgent(unittest.TestCase):
 
     def setUp(self):
-        self.risk_thresholds = {
-            "beta": {"good": 1.0, "neutral": 1.2},
-            "volatility": {"good": 0.02, "neutral": 0.04},
-            "drawdown": {"good": 0.10, "neutral": 0.20},
-            "debt_to_equity": {"good": 1.0, "neutral": 2.0},
-            "current_ratio": {"good": 1.5, "neutral": 1.0}
-        }
+        self.agent = RiskAgent()
 
-        self.bs_thresholds = {
-            "current_ratio": {"good": 1.5, "neutral": 1.0},
-            "debt_to_equity": {"good": 1.0, "neutral": 2.0},
-            "cash_ratio": {"good": 0.5, "neutral": 0.2}
-        }
+    def test_calm_market_is_low_risk(self):
+        result = self.agent.analyze(prices([0.002, -0.002] * 15))
+        self.assertEqual(result["signal"], "low")
+        self.assertLess(result["daily_volatility"], 0.01)
 
-        self.agent = RiskAgent(self.risk_thresholds, self.bs_thresholds)
+    def test_moderate_swings_are_medium_risk(self):
+        self.assertEqual(self.agent.analyze(prices([0.015, -0.015] * 15))["signal"], "medium")
 
-    def test_analyze_company(self):
-        result = self.agent.analyze_company("AAPL")
+    def test_large_swings_are_high_risk(self):
+        self.assertEqual(self.agent.analyze(prices([0.05, -0.05] * 15))["signal"], "high")
 
-        self.assertNotIn("error", result)
-
-        required_keys = [
-            "beta", "volatility", "max_drawdown",
-            "debt_to_equity", "current_ratio",
-            "beta_score", "volatility_score", "drawdown_score",
-            "debt_score", "liquidity_score",
-            "risk_score"
-        ]
-
-        for key in required_keys:
-            self.assertIn(key, result)
-            self.assertIsNotNone(result[key])
-
-        self.assertIsInstance(result["risk_score"], float)
 
 if __name__ == "__main__":
     unittest.main()
