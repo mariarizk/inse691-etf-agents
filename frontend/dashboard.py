@@ -1,27 +1,41 @@
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import pandas as pd
 import streamlit as st
-from backend.etf_pipeline import ETFMultiAgentSystem
-from config import CONFIG
 
-system = ETFMultiAgentSystem(CONFIG)
+from backend.advisor import Advisor
+from backend.strategy import load_prices
 
-st.title("ETF Multi-Agent Decision System")
+advisor = Advisor()
+prices = load_prices()
 
-ticker = st.text_input("Ticker", "AAPL")
+st.title("QQQ Multi-Agent Trading System")
 
-if st.button("Run"):
-    result = system.run(ticker)
-    st.subheader("Decision")
-    st.json(result["decision"])
+if st.button("Analyze latest day"):
+    result = advisor.analyze_latest(prices)
+    final = result["final_decision"]
 
-    st.subheader("Agents")
-    st.json(result["agents"])
+    st.subheader(f"{result['date']}: {final['label']} (decided by {final['source']})")
+    st.write(result["explanation"])
+    if final["note"]:
+        st.warning(final["note"])
 
-tickers = st.text_input("Portfolio tickers (comma-separated)", "QQQ,TQQQ,SQQQ")
+    st.subheader("Agent signals")
+    st.json(result["signals"])
 
-if st.button("Run Portfolio"):
-    t_list = [t.strip() for t in tickers.split(",")]
-    result = system.run_many(t_list)
-    st.subheader("Portfolio Decision")
-    st.json(result["portfolio_decision"])
-    st.subheader("Per Ticker")
-    st.json(result["per_ticker"])
+    if final["debate"]:
+        st.subheader("Debate")
+        st.json(final["debate"])
+
+if st.button("Run backtest report"):
+    result = advisor.backtest_report(prices)
+
+    st.subheader("Performance report")
+    st.write(result["report"])
+
+    st.subheader("Metrics")
+    st.table(pd.DataFrame({
+        "MAS strategy": result["strategy_metrics"],
+        "QQQ buy-and-hold": result["benchmark_metrics"],
+    }))
