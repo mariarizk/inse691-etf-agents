@@ -1,15 +1,13 @@
-import sys, os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from agents.sentiment_agent import SentimentAgent
+
+article = """
+NVIDIA shares fell after regulators announced a new review
+of AI chip exports. Analysts expect the restrictions to
+reduce future revenue growth.
+"""
 
 agent = SentimentAgent()
 
-print("Fetching news...")
-if agent.fetch_news("QQQ"):
-    print("News fetched!")
-    print("Sentiment Score:", agent.headline_sentiment())
-    print("Sentiment Classification:", agent.classify_sentiment())
-else:
-    print("Failed to fetch news.")
+result = agent.analyze(article)
 
+print(result)

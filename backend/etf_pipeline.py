@@ -3,27 +3,37 @@ from agents.sentiment_agent import SentimentAgent
 from agents.risk_agent import RiskAgent
 from agents.decision_agent import DecisionAgent
 
+
 class ETFPipeline:
-    def __init__(self, price_df, headlines):
-        self.price_df = price_df
-        self.headlines = headlines
+
+    def __init__(self):
 
         self.tech_agent = TechnicalAgent()
-        self.sent_agent = SentimentAgent()
+        self.sentiment_agent = SentimentAgent()
         self.risk_agent = RiskAgent()
-        self.dec_agent = DecisionAgent()
+        self.decision_agent = DecisionAgent()
 
-    def run(self):
-        tech = self.tech_agent.analyze(self.price_df)
-        sentiment = self.sent_agent.analyze(self.price_df)
-        risk = self.risk_agent.analyze(self.price_df)
+    def run(self, price_df, article_text):
 
-        decision = self.dec_agent.decide(tech, sentiment, risk)
+        technical_result = self.tech_agent.analyze(price_df)
+
+        sentiment_result = self.sentiment_agent.analyze(
+            article_text
+        )
+
+        risk_result = self.risk_agent.analyze(
+            article_text
+        )
+
+        decision_result = self.decision_agent.decide(
+            technical_result,
+            sentiment_result,
+            risk_result
+        )
 
         return {
-            "technical": tech,
-            "sentiment": sentiment,
-            "risk": risk,
-            "decision": {"action": decision}
-
+            "technical": technical_result,
+            "sentiment": sentiment_result,
+            "risk": risk_result,
+            "decision": decision_result
         }

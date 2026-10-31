@@ -1,83 +1,108 @@
-import sys, os
 import unittest
 
-# Add project root to Python path
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(ROOT_DIR)
-
 from agents.decision_agent import DecisionAgent
+
 
 class TestDecisionAgent(unittest.TestCase):
 
     def setUp(self):
         self.agent = DecisionAgent()
 
-        self.mock_fundamental = {"score": 3}
-        self.mock_technical_buy = {"signal": "BUY"}
-        self.mock_technical_sell = {"signal": "SELL"}
-        self.mock_technical_hold = {"signal": "HOLD"}
-
-        self.mock_risk_low = {"risk_score": 2}
-        self.mock_risk_high = {"risk_score": 5}
-
-        self.mock_sentiment_positive = {"sentiment_score": 1}
-        self.mock_sentiment_negative = {"sentiment_score": -1}
-
-        self.mock_diversification = {"score": 2}
-
     def test_buy_signal(self):
-        mock_debate = {
-            "bullish_arguments": ["Strong momentum"],
-            "bearish_arguments": [],
-            "conflicts": []
+
+        technical = "bullish"
+
+        sentiment = {
+            "sentiment": "Positive",
+            "confidence": 90,
+            "reasoning": "Strong earnings."
+        }
+
+        risk = {
+            "risk": "Low",
+            "confidence": 85,
+            "reasoning": "Low volatility."
         }
 
         result = self.agent.decide(
-            self.mock_fundamental,
-            self.mock_technical_buy,
-            self.mock_risk_low,
-            self.mock_sentiment_positive,
-            self.mock_diversification,
-            mock_debate
+            technical,
+            sentiment,
+            risk
         )
 
-        self.assertEqual(result["decision"], "BUY")
+        self.assertEqual(result["action"], 1)
 
     def test_sell_signal(self):
-        mock_debate = {
-            "bullish_arguments": [],
-            "bearish_arguments": ["Bad earnings"],
-            "conflicts": []
+
+        technical = "bearish"
+
+        sentiment = {
+            "sentiment": "Negative",
+            "confidence": 95,
+            "reasoning": "Weak outlook."
+        }
+
+        risk = {
+            "risk": "High",
+            "confidence": 90,
+            "reasoning": "Regulatory concerns."
         }
 
         result = self.agent.decide(
-            self.mock_fundamental,
-            self.mock_technical_sell,
-            self.mock_risk_high,
-            self.mock_sentiment_negative,
-            self.mock_diversification,
-            mock_debate
+            technical,
+            sentiment,
+            risk
         )
 
-        self.assertEqual(result["decision"], "SELL")
+        self.assertEqual(result["action"], -1)
 
-    def test_hold_on_conflict(self):
-        mock_debate = {
-            "bullish_arguments": ["Good news"],
-            "bearish_arguments": ["Bad news"],
-            "conflicts": ["Mixed signals", "Volatility"]
+    def test_hold_signal(self):
+
+        technical = "bullish"
+
+        sentiment = {
+            "sentiment": "Positive",
+            "confidence": 90,
+            "reasoning": "Positive article."
+        }
+
+        risk = {
+            "risk": "Medium",
+            "confidence": 80,
+            "reasoning": "Moderate risk."
         }
 
         result = self.agent.decide(
-            self.mock_fundamental,
-            self.mock_technical_hold,
-            self.mock_risk_low,
-            self.mock_sentiment_positive,
-            self.mock_diversification,
-            mock_debate
+            technical,
+            sentiment,
+            risk
         )
 
-        self.assertEqual(result["decision"], "HOLD")
+        self.assertEqual(result["action"], 0)
+
+    def test_low_confidence_sentiment(self):
+
+        technical = "bullish"
+
+        sentiment = {
+            "sentiment": "Positive",
+            "confidence": 40,
+            "reasoning": "Weak confidence."
+        }
+
+        risk = {
+            "risk": "Low",
+            "confidence": 90,
+            "reasoning": "Stable market."
+        }
+
+        result = self.agent.decide(
+            technical,
+            sentiment,
+            risk
+        )
+
+        self.assertEqual(result["action"], 0)
 
 
 if __name__ == "__main__":
