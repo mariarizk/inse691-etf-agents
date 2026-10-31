@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 ROOT_DIR = Path(__file__).resolve().parent
 DATA_DIR = ROOT_DIR / "data"
 PRICE_FILE = DATA_DIR / "QQQ.csv"
+AGENT_LOG_FILE = DATA_DIR / "agent_log.json"
+TICKER = "QQQ"
 
 load_dotenv(ROOT_DIR / ".env")
 
@@ -37,5 +39,13 @@ LLM_CONFIG = {
     "max_retries": 2,
     "retry_wait_seconds": 10,
     "explanation_max_words": 120,
+    "explanation_max_attempts": 2,
     "report_max_words": 250,
+}
+
+NEWS_CONFIG = {
+    "api_key": os.getenv("MARKETAUX_API_KEY", ""),
+    "base_url": "https://api.marketaux.com/v1/news/all",
+    "headline_limit": 3,
+    "timeout_seconds": 10,
 }

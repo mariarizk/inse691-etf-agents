@@ -1,15 +1,16 @@
 import json
 
-from agents.decision_agent import ANALYST_AGENTS, LABEL_ACTIONS
+from agents.decision_agent import LABEL_ACTIONS
 from agents.llm.client import LlmError
 from agents.llm.prompts import DEBATE_SYSTEM
+from agents.llm.signals import context_signals
 
 STANCES = {"bullish": 1, "positive": 1, "bearish": -1, "negative": -1, "high": -1}
 DEBATE_FIELDS = ("bull_case", "bear_case", "verdict")
 
 
 class DebateAgent:
-    """Moderates conflicting analyst signals and settles the final action."""
+    """Moderates conflicting agent signals and settles the final action."""
 
     name = "debate"
 
@@ -17,7 +18,7 @@ class DebateAgent:
         self.client = client
 
     def has_conflict(self, board):
-        stances = {STANCES.get(board[name]["signal"], 0) for name in ANALYST_AGENTS}
+        stances = {STANCES.get(output["signal"], 0) for output in context_signals(board).values()}
         return 1 in stances and -1 in stances
 
     def moderate(self, board):
@@ -25,9 +26,8 @@ class DebateAgent:
         if not self.has_conflict(board):
             return {**rule_decision, "source": "rules", "debate": None, "note": None}
 
-        signals = {name: board[name] for name in ANALYST_AGENTS}
         prompt = (
-            f"Agent outputs:\n{json.dumps(signals, indent=2)}\n\n"
+            f"Agent outputs:\n{json.dumps(context_signals(board), indent=2)}\n\n"
             f"Rule-based decision: {rule_decision['label']}"
         )
 
