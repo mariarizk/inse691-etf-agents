@@ -27,6 +27,17 @@ class TestETFPipeline(unittest.TestCase):
         for agent in ("technical", "sentiment", "risk"):
             self.assertIn("signal", result[agent])
 
+    def test_blackboard_logs_every_message_in_order(self):
+        pipeline = ETFPipeline(self.price_df)
+        result = pipeline.run()
+        log = pipeline.blackboard.history()
+
+        self.assertEqual([entry["sender"] for entry in log], ["technical", "sentiment", "risk", "decision"])
+        self.assertEqual([entry["step"] for entry in log], [1, 2, 3, 4])
+        self.assertEqual(log[-1]["content"], result["decision"])
+        for entry in log:
+            self.assertIn("timestamp", entry)
+
     def test_decision_is_a_valid_action(self):
         decision = ETFPipeline(self.price_df).run()["decision"]
 
