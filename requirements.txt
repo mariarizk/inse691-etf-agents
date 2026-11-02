@@ -1,0 +1,9 @@
+pandas
+numpy
+matplotlib
+requests
+python-dotenv
+yfinance
+fastapi
+uvicorn
+streamlit

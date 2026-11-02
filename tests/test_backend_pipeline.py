@@ -2,66 +2,75 @@ import sys
 import os
 import unittest
 
-# Allow imports from project root
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import pandas as pd
+
+from agents.decision_agent import ACTION_LABELS
 from backend.etf_pipeline import ETFPipeline
-from config import CONFIG
 
 
-class TestETFMultiAgentPipeline(unittest.TestCase):
+class FakeLlm:
+    """Answers both news agents with a bullish, low-risk reading and returns scripted explanations."""
+
+    def __init__(self, explanations):
+        self.explanations = list(explanations)
+
+    def complete_json(self, system_prompt, user_prompt):
+        return {"sentiment": "Positive", "risk": "Low", "confidence": 90, "reasoning": "Strong earnings."}
+
+    def complete(self, system_prompt, user_prompt):
+        return self.explanations.pop(0)
+
+
+class TestETFPipeline(unittest.TestCase):
 
     def setUp(self):
-        # FIX: your pipeline requires a config argument
-        self.pipeline = ETFPipeline(CONFIG)
+        values = [100 + i for i in range(40)]
+        self.price_df = pd.DataFrame(
+            {"Close": values}, index=pd.date_range("2025-01-01", periods=len(values))
+        )
 
-    def test_pipeline_run(self):
-        """Test full MAS pipeline output structure."""
-        result = self.pipeline.run("AAPL")
+    def test_blackboard_holds_every_agent_output(self):
+        result = ETFPipeline().run(self.price_df)
 
-        # === Top-level keys ===
-        self.assertIn("agents", result, "Missing 'agents' section")
-        self.assertIn("debate", result, "Missing 'debate' section")
-        self.assertIn("decision", result, "Missing 'decision' section")
-        self.assertIn("status", result, "Missing 'status' section")
+        for agent in ("technical", "sentiment", "risk", "decision"):
+            self.assertIn(agent, result)
+        self.assertNotIn("explanation", result)
+        self.assertEqual(result["sentiment"]["source"], "price")
 
-        # === Agent-level keys ===
-        required_agents = [
-            "fundamental",
-            "technical",
-            "risk",
-            "sentiment",
-            "diversification"
-        ]
+    def test_blackboard_logs_every_message_in_order(self):
+        result = ETFPipeline().run(self.price_df)
+        log = result["log"]
 
-        for key in required_agents:
-            self.assertIn(
-                key,
-                result["agents"],
-                f"Missing agent output: {key}"
-            )
+        self.assertEqual([entry["sender"] for entry in log], ["technical", "sentiment", "risk", "decision"])
+        self.assertEqual([entry["step"] for entry in log], [1, 2, 3, 4])
+        self.assertEqual(log[-1]["content"], result["decision"])
 
-        # === Debate Agent Output ===
-        debate = result["debate"]
-        self.assertIn("bullish_arguments", debate)
-        self.assertIn("bearish_arguments", debate)
-        self.assertIn("conflicts", debate)
+    def test_decision_is_a_valid_action(self):
+        decision = ETFPipeline().run(self.price_df)["decision"]
 
-        # === Decision Agent Output ===
-        decision = result["decision"]
-        self.assertIn("decision", decision)
-        self.assertIn("confidence", decision)
+        self.assertIn(decision["action"], ACTION_LABELS)
+        self.assertEqual(decision["label"], ACTION_LABELS[decision["action"]])
 
-        # === Coordinator Status ===
-        status = result["status"]
-        self.assertIn("complete", status)
-        self.assertIn("missing", status)
+    def test_llm_run_explains_the_decision(self):
+        llm = FakeLlm(["The system recommends BUY: the trend is bullish, sentiment is positive and risk is low."])
+        result = ETFPipeline(llm).run(self.price_df, "Strong earnings beat.", explain=True)
 
-        # === Print for debugging ===
-        print("\n=== Pipeline Output ===")
-        print("Agents:", result["agents"].keys())
-        print("Decision:", decision)
-        print("Status:", status)
+        self.assertEqual(result["decision"]["label"], "BUY")
+        self.assertEqual(result["sentiment"]["source"], "llm")
+        self.assertTrue(result["explanation"]["consistent"])
+        self.assertEqual(result["log"][-1]["sender"], "explanation")
+
+    def test_inconsistent_explanation_is_regenerated_once(self):
+        llm = FakeLlm([
+            "The system recommends SELL because the trend is bearish.",
+            "The system recommends BUY: the trend is bullish, sentiment is positive and risk is low.",
+        ])
+        explanation = ETFPipeline(llm).run(self.price_df, "Strong earnings beat.", explain=True)["explanation"]
+
+        self.assertTrue(explanation["consistent"])
+        self.assertEqual(explanation["attempts"], 2)
 
 
 if __name__ == "__main__":

@@ -1,25 +1,35 @@
 import sys, os
+import unittest
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import pandas as pd
 
 from agents.technical_agent import TechnicalAgent
 
-agent = TechnicalAgent("QQQ")
 
-print("Fetching price history...")
-if agent.fetch_history():
-    print("History fetched successfully!\n")
+def prices(values):
+    return pd.DataFrame({"Close": values}, index=pd.date_range("2025-01-01", periods=len(values)))
 
-    print("Moving Averages:")
-    print(agent.moving_averages(), "\n")
 
-    print("RSI:")
-    print(agent.rsi(), "\n")
+class TestTechnicalAgent(unittest.TestCase):
 
-    print("MACD:")
-    print(agent.macd(), "\n")
+    def setUp(self):
+        self.agent = TechnicalAgent()
 
-    print("Mean Reversion (Z-Score):")
-    print(agent.mean_reversion(), "\n")
+    def test_uptrend_is_bullish(self):
+        result = self.agent.analyze(prices([100 + i for i in range(40)]))
+        self.assertEqual(result["signal"], "bullish")
+        self.assertGreater(result["short_ma"], result["long_ma"])
 
-else:
-    print("Failed to fetch history.")
+    def test_downtrend_is_bearish(self):
+        result = self.agent.analyze(prices([200 - i for i in range(40)]))
+        self.assertEqual(result["signal"], "bearish")
+
+    def test_flat_market_is_neutral(self):
+        result = self.agent.analyze(prices([100.0] * 40))
+        self.assertEqual(result["signal"], "neutral")
+
+
+if __name__ == "__main__":
+    unittest.main()

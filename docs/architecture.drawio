@@ -1,0 +1,119 @@
+<mxfile host="app.diagrams.net" agent="Cursor" version="21.0.0">
+  <diagram name="MAS Architecture" id="mas-architecture">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1320" pageHeight="740" math="0" shadow="0" darkMode="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="QQQ Multi-Agent Trading System: Five-Agent Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="760" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Data sources -->
+        <mxCell id="prices" value="&lt;b&gt;QQQ price data&lt;/b&gt;&lt;br&gt;data/QQQ.csv&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;EODHD, FMP, Alpha Vantage, CSV&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="160" width="170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="news" value="&lt;b&gt;Marketaux news&lt;/b&gt;&lt;br&gt;latest QQQ headlines" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="170" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Analyst agents -->
+        <mxCell id="technical" value="&lt;b&gt;1. Technical Agent&lt;/b&gt; (rules)&lt;br&gt;10 / 30-day moving averages&lt;br&gt;bullish | neutral | bearish" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="290" y="100" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="sentiment" value="&lt;b&gt;2. Sentiment Agent&lt;/b&gt; (LLM)&lt;br&gt;classifies news: label,&lt;br&gt;confidence, reasoning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="290" y="260" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="risk" value="&lt;b&gt;3. Risk Agent&lt;/b&gt; (LLM)&lt;br&gt;news + 20-day volatility: label,&lt;br&gt;confidence, reasoning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="290" y="420" width="230" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Agent log -->
+        <mxCell id="agentlog" value="&lt;b&gt;Agent communication log&lt;/b&gt;&lt;br&gt;data/agent_log.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="590" y="110" width="190" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Blackboard -->
+        <mxCell id="blackboard" value="&lt;b&gt;Blackboard&lt;/b&gt;&lt;br&gt;shared memory for&lt;br&gt;agent-to-agent communication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="590" y="245" width="190" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Decision agent -->
+        <mxCell id="decision" value="&lt;b&gt;4. Decision Agent&lt;/b&gt; (rules)&lt;br&gt;ignores LLM outputs below 60&lt;br&gt;confidence; BUY | HOLD | SELL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="850" y="245" width="200" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Explanation agent -->
+        <mxCell id="explanation" value="&lt;b&gt;5. Explanation Agent&lt;/b&gt; (LLM)&lt;br&gt;justifies the decision;&lt;br&gt;consistency check, one retry" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="850" y="430" width="200" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Backtester -->
+        <mxCell id="backtest" value="&lt;b&gt;Backtester + metrics&lt;/b&gt;&lt;br&gt;daily decisions vs QQQ buy-and-hold" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="255" width="190" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Outputs -->
+        <mxCell id="outputs" value="&lt;b&gt;Outputs&lt;/b&gt;&lt;br&gt;website dashboard, FastAPI,&lt;br&gt;analysis report and agent log" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="430" width="190" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend" value="&lt;b&gt;Design notes&lt;/b&gt; Blue = rule-based agent, purple = LLM agent. The blackboard is the communication mechanism, not an agent.&lt;br&gt;In the backtest there is no historical news, so Sentiment and Risk use their price-based rules and the Explanation agent is skipped." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=10;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="600" width="1260" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Data to agents -->
+        <mxCell id="e-p-tech" value="prices" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;exitX=1;exitY=0.3;entryX=0;entryY=0.5;" edge="1" parent="1" source="prices" target="technical">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-p-sent" value="fallback" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;dashed=1;exitX=1;exitY=0.7;entryX=0;entryY=0.3;" edge="1" parent="1" source="prices" target="sentiment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-n-sent" value="news" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;exitX=1;exitY=0.3;entryX=0;entryY=0.7;" edge="1" parent="1" source="news" target="sentiment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-n-risk" value="news" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;exitX=1;exitY=0.7;entryX=0;entryY=0.5;" edge="1" parent="1" source="news" target="risk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Agents to blackboard -->
+        <mxCell id="e-tech" value="write" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.2;" edge="1" parent="1" source="technical" target="blackboard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sent" value="write" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sentiment" target="blackboard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-risk" value="write" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.8;" edge="1" parent="1" source="risk" target="blackboard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Blackboard links -->
+        <mxCell id="e-log" value="every write" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=block;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="blackboard" target="agentlog">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-read" value="read signals" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;exitX=1;exitY=0.4;entryX=0;entryY=0.4;" edge="1" parent="1" source="blackboard" target="decision">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-write-decision" value="write decision" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;dashed=1;exitX=0;exitY=0.7;entryX=1;entryY=0.7;" edge="1" parent="1" source="decision" target="blackboard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-explain" value="all outputs" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=block;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="blackboard" target="explanation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision and outputs -->
+        <mxCell id="e-backtest" value="daily actions" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="decision" target="backtest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-out-explain" value="explanation" style="edgeStyle=entityRelationEdgeStyle;rounded=1;html=1;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="explanation" target="outputs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-out-backtest" value="metrics" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="backtest" target="outputs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

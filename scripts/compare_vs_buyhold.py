@@ -1,29 +1,16 @@
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import pandas as pd
 import matplotlib.pyplot as plt
 
-from backend.etf_pipeline import ETFPipeline
-from backend.backtest import Backtester
+from backend.strategy import buy_and_hold, load_prices, run_strategy
+from config import DATA_DIR
 
-price_df = pd.read_csv("data/QQQ.csv", parse_dates=["Date"], index_col="Date")
-
-headlines = []
-decisions = []
-
-for date in price_df.index:
-    daily_df = price_df.loc[:date]
-    pipeline = ETFPipeline(daily_df, headlines)
-    result = pipeline.run()
-    decisions.append({"action": result["decision"]["action"]})
-
-
-bt = Backtester(price_df, decisions)
-output = bt.run()
+price_df = load_prices()
+_, output = run_strategy(price_df)
 
 mas_equity = output["equity_curve"]
-buyhold_equity = price_df["Close"] / price_df["Close"].iloc[0]
+buyhold_equity = buy_and_hold(price_df)["equity_curve"]
 
 plt.figure(figsize=(12,6))
 plt.plot(mas_equity, label="MAS Strategy", color="blue")
@@ -32,5 +19,5 @@ plt.title("MAS vs QQQ Buy-and-Hold")
 plt.grid(True)
 plt.legend()
 
-plt.savefig("data/mas_vs_buyhold.png")
+plt.savefig(DATA_DIR / "mas_vs_buyhold.png")
 plt.show()
