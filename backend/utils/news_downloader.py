@@ -37,3 +37,11 @@ def fetch_headlines(ticker, limit=None, settings=None):
         for article in articles
         if isinstance(article, dict)
     ]
+
+
+def headlines_to_text(headlines):
+    """Joins headlines into one article text for the sentiment and risk agents."""
+    return "\n\n".join(
+        f"{h['title']}. {h['description']} ({h['source']}, {h['published_at']})".strip()
+        for h in headlines
+    )

@@ -7,6 +7,7 @@ ROOT_DIR = Path(__file__).resolve().parent
 DATA_DIR = ROOT_DIR / "data"
 PRICE_FILE = DATA_DIR / "QQQ.csv"
 AGENT_LOG_FILE = DATA_DIR / "agent_log.json"
+ANALYSIS_FILE = DATA_DIR / "analysis.md"
 TICKER = "QQQ"
 
 load_dotenv(ROOT_DIR / ".env")
@@ -19,16 +20,21 @@ AGENT_CONFIG = {
     "sentiment": {
         "positive_return": 0.01,
         "negative_return": -0.01,
+        "rule_confidence": 100,
     },
     "risk": {
         "window": 20,
         "low_volatility": 0.01,
         "medium_volatility": 0.02,
+        "rule_confidence": 100,
+    },
+    "decision": {
+        "min_confidence": 60,
     },
 }
 
 LLM_CONFIG = {
-    "api_key": os.getenv("GEMINI_API_KEY", ""),
+    "api_key": os.getenv("LLM_API_KEY") or os.getenv("GEMINI_API_KEY", ""),
     "base_url": os.getenv(
         "LLM_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai"
     ).rstrip("/"),
@@ -40,7 +46,6 @@ LLM_CONFIG = {
     "retry_wait_seconds": 10,
     "explanation_max_words": 120,
     "explanation_max_attempts": 2,
-    "report_max_words": 250,
 }
 
 NEWS_CONFIG = {

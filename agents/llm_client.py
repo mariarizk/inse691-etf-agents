@@ -13,14 +13,14 @@ class LlmError(RuntimeError):
 
 
 class LlmClient:
-    """Chat client for any OpenAI-compatible endpoint (Gemini by default)."""
+    """Chat client for any OpenAI-compatible endpoint (Gemini by default, OpenAI via LLM_BASE_URL)."""
 
     def __init__(self, settings=None):
         self.settings = settings or LLM_CONFIG
 
     def complete(self, system_prompt, user_prompt, json_output=False):
         if not self.settings["api_key"]:
-            raise LlmError("GEMINI_API_KEY is missing from .env")
+            raise LlmError("LLM_API_KEY (or GEMINI_API_KEY) is missing from .env")
 
         payload = {
             "model": self.settings["model"],

@@ -1,28 +1,58 @@
+from config import AGENT_CONFIG
+
 ANALYST_AGENTS = ("technical", "sentiment", "risk")
 ACTION_LABELS = {1: "BUY", 0: "HOLD", -1: "SELL"}
-LABEL_ACTIONS = {label: action for action, label in ACTION_LABELS.items()}
 
 
 class DecisionAgent:
+
     name = "decision"
 
-    def decide(self, tech, sentiment, risk):
+    def __init__(self, settings=None):
+        self.min_confidence = (settings or AGENT_CONFIG["decision"])["min_confidence"]
 
-        if tech == "bearish" or sentiment == "negative" or risk == "high":
-            return -1   # SELL
+    def decide(self, technical, sentiment, risk):
 
-        if tech == "neutral" or risk == "medium":
-            return 0    # HOLD
+        sentiment_label = sentiment["sentiment"]
+        sentiment_confidence = sentiment["confidence"]
 
-        if tech == "bullish" and sentiment == "positive" and risk == "low":
-            return 1    # BUY
+        risk_label = risk["risk"]
+        risk_confidence = risk["confidence"]
 
-        return 0
+        # Ignore weak LLM outputs
+        if sentiment_confidence < self.min_confidence:
+            sentiment_label = "Neutral"
+
+        if risk_confidence < self.min_confidence:
+            risk_label = "Medium"
+
+        signals = f"Technical={technical}, Sentiment={sentiment_label}, Risk={risk_label}"
+
+        # SELL
+        if (
+            technical == "bearish"
+            or sentiment_label == "Negative"
+            or risk_label == "High"
+        ):
+            return self._result(-1, signals)
+
+        # BUY
+        if (
+            technical == "bullish"
+            and sentiment_label == "Positive"
+            and risk_label == "Low"
+        ):
+            return self._result(1, signals)
+
+        # HOLD
+        return self._result(0, f"Mixed signals: {signals}")
 
     def decide_from_blackboard(self, blackboard):
-        action = self.decide(
+        return self.decide(
             blackboard.read("technical")["signal"],
-            blackboard.read("sentiment")["signal"],
-            blackboard.read("risk")["signal"],
+            blackboard.read("sentiment"),
+            blackboard.read("risk"),
         )
-        return {"action": action, "label": ACTION_LABELS[action]}
+
+    def _result(self, action, reasoning):
+        return {"action": action, "label": ACTION_LABELS[action], "reasoning": reasoning}
