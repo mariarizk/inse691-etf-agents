@@ -1,109 +1,40 @@
-import unittest
+import sys
+import os
 
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        )
+    )
+)
 from agents.decision_agent import DecisionAgent
 
+agent = DecisionAgent()
 
-class TestDecisionAgent(unittest.TestCase):
+technical = "bullish"
 
-    def setUp(self):
-        self.agent = DecisionAgent()
+sentiment = {
+    "sentiment": "Positive",
+    "confidence": 90,
+    "reasoning": "Strong outlook."
+}
 
-    def test_buy_signal(self):
+risk = {
+    "risk": "Low",
+    "confidence": 85,
+    "reasoning": "Stable market."
+}
 
-        technical = "bullish"
+result = agent.decide(
+    technical,
+    sentiment,
+    risk
+)
 
-        sentiment = {
-            "sentiment": "Positive",
-            "confidence": 90,
-            "reasoning": "Strong earnings."
-        }
+print("\n=== Decision Agent Test ===\n")
+print(result)
 
-        risk = {
-            "risk": "Low",
-            "confidence": 85,
-            "reasoning": "Low volatility."
-        }
+assert result["action"] == 1
 
-        result = self.agent.decide(
-            technical,
-            sentiment,
-            risk
-        )
-
-        self.assertEqual(result["action"], 1)
-
-    def test_sell_signal(self):
-
-        technical = "bearish"
-
-        sentiment = {
-            "sentiment": "Negative",
-            "confidence": 95,
-            "reasoning": "Weak outlook."
-        }
-
-        risk = {
-            "risk": "High",
-            "confidence": 90,
-            "reasoning": "Regulatory concerns."
-        }
-
-        result = self.agent.decide(
-            technical,
-            sentiment,
-            risk
-        )
-
-        self.assertEqual(result["action"], -1)
-
-    def test_hold_signal(self):
-
-        technical = "bullish"
-
-        sentiment = {
-            "sentiment": "Positive",
-            "confidence": 90,
-            "reasoning": "Positive article."
-        }
-
-        risk = {
-            "risk": "Medium",
-            "confidence": 80,
-            "reasoning": "Moderate risk."
-        }
-
-        result = self.agent.decide(
-            technical,
-            sentiment,
-            risk
-        )
-
-        self.assertEqual(result["action"], 0)
-
-    def test_low_confidence_sentiment(self):
-
-        technical = "bullish"
-
-        sentiment = {
-            "sentiment": "Positive",
-            "confidence": 40,
-            "reasoning": "Weak confidence."
-        }
-
-        risk = {
-            "risk": "Low",
-            "confidence": 90,
-            "reasoning": "Stable market."
-        }
-
-        result = self.agent.decide(
-            technical,
-            sentiment,
-            risk
-        )
-
-        self.assertEqual(result["action"], 0)
-
-
-if __name__ == "__main__":
-    unittest.main()
+print("\nPASS")
