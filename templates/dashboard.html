@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="hero">
+
+    <h1>QQQ Multi-Agent Intelligence System</h1>
+
+    <p>
+        Analyze financial news using a coordinated
+        multi-agent system consisting of Technical,
+        Sentiment, Risk, Decision, and Explanation Agents.
+    </p>
+
+</div>
+
+<div class="chat-shell">
+
+    <div class="chat-header">
+
+        ETF Intelligence Assistant
+
+    </div>
+
+    <div class="chat-window">
+
+        <div class="assistant-message">
+
+            <strong>System</strong><br>
+
+            Welcome to the QQQ Multi-Agent Intelligence System.
+
+            Paste a financial news article below and I will:
+
+            <ul>
+                <li>Analyze sentiment</li>
+                <li>Assess risk</li>
+                <li>Generate a recommendation</li>
+                <li>Explain the reasoning</li>
+                <li>Record agent communications</li>
+            </ul>
+
+        </div>
+
+        {% if result %}
+
+        <div class="user-message">
+
+            News article submitted for analysis.
+
+        </div>
+
+        <div class="assistant-message">
+
+            <strong>Decision Agent</strong><br><br>
+
+            Recommendation:
+
+            {% if result.decision.action == 1 %}
+                <span class="buy">BUY</span>
+            {% elif result.decision.action == 0 %}
+                <span class="hold">HOLD</span>
+            {% else %}
+                <span class="sell">SELL</span>
+            {% endif %}
+
+        </div>
+
+        <div class="assistant-message">
+
+            <strong>Technical Agent</strong><br><br>
+
+            Signal: {{ result.technical }}
+
+        </div>
+
+        <div class="assistant-message">
+
+            <strong>Sentiment Agent</strong><br><br>
+
+            Classification:
+            {{ result.sentiment.sentiment }}
+
+            <br><br>
+
+            Confidence:
+            {{ result.sentiment.confidence }}%
+
+            <br><br>
+
+            Reasoning:
+
+            {{ result.sentiment.reasoning }}
+
+        </div>
+
+        <div class="assistant-message">
+
+            <strong>Risk Agent</strong><br><br>
+
+            Classification:
+            {{ result.risk.risk }}
+
+            <br><br>
+
+            Confidence:
+            {{ result.risk.confidence }}%
+
+            <br><br>
+
+            Reasoning:
+
+            {{ result.risk.reasoning }}
+
+        </div>
+
+        <div class="assistant-message">
+
+            <strong>Explanation Agent</strong><br><br>
+
+            {{ result.explanation.explanation }}
+
+        </div>
+
+        {% endif %}
+
+        {% if error %}
+
+        <div class="error-message">
+
+            {{ error }}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <form action="/analyze" method="post">
+
+        <textarea
+            name="article"
+            placeholder="Paste financial news article here..."
+            required
+        ></textarea>
+
+        <button type="submit">
+
+            Analyze News
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

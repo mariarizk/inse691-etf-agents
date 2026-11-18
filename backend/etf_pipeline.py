@@ -3,7 +3,7 @@ from agents.sentiment_agent import SentimentAgent
 from agents.risk_agent import RiskAgent
 from agents.decision_agent import DecisionAgent
 from agents.explanation_agent import ExplanationAgent
-
+from agents.blackboard import Blackboard
 
 class ETFPipeline:
 
@@ -14,11 +14,18 @@ class ETFPipeline:
         self.risk_agent = RiskAgent()
         self.decision_agent = DecisionAgent()
         self.explanation_agent = ExplanationAgent()
+        self.blackboard = Blackboard()
+
 
     def run(self, price_df, article_text):
 
         # Non-LLM Agent
         technical_result = self.tech_agent.analyze(price_df)
+        self.blackboard.write(
+            "technical",
+            technical_result
+        )
+
 
         # LLM Guardrails
         try:
@@ -26,15 +33,50 @@ class ETFPipeline:
             sentiment_result = (
                 self.sentiment_agent.analyze(article_text)
             )
+            self.blackboard.write(
+                "sentiment",
+                sentiment_result
+            )
+
+                   
 
             risk_result = (
                 self.risk_agent.analyze(article_text)
             )
+            self.blackboard.write(
+                "risk",
+                risk_result
+            )
 
+      
         except Exception as e:
 
-            raise RuntimeError(
-                f"Pipeline failed during Sentiment/Risk analysis: {e}"
+            print(
+                f"Sentiment/Risk fallback activated: {e}"
+            )
+
+            sentiment_result = {
+                "sentiment": "Neutral",
+                "confidence": 0,
+                "reasoning":
+                    "Gemini unavailable. Fallback response."
+            }
+
+            risk_result = {
+                "risk": "Medium",
+                "confidence": 0,
+                "reasoning":
+                    "Gemini unavailable. Fallback response."
+            }
+
+            self.blackboard.write(
+                "sentiment",
+                sentiment_result
+            )
+
+            self.blackboard.write(
+                "risk",
+                risk_result
             )
 
         # Rule-Based Agent
@@ -43,6 +85,12 @@ class ETFPipeline:
             sentiment_result,
             risk_result
         )
+        self.blackboard.write(
+            "decision",
+            decision_result
+        )
+
+   
 
         # Explanation Agent Guardrail
         try:
@@ -56,11 +104,21 @@ class ETFPipeline:
                 )
             )
 
+
         except Exception as e:
 
-            raise RuntimeError(
-                f"Pipeline failed during explanation generation: {e}"
-            )
+            explanation_result = {
+                "explanation":
+                    "Explanation service temporarily unavailable.",
+                "consistency": False,
+                "error": str(e)
+            }
+            
+        self.blackboard.write(
+            "explanation",
+            explanation_result
+        )
+      
 
         return {
             "technical": technical_result,

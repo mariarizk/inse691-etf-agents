@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1>Agent Outputs</h1>
+
+<table>
+
+<tr>
+    <th>Agent</th>
+    <th>Output</th>
+</tr>
+
+{% for agent, result in agents.items() %}
+
+<tr>
+
+    <td>
+        {{ agent|title }}
+    </td>
+
+    <td>
+
+        {% if agent == "technical" %}
+
+            Signal: {{ result }}
+
+        {% elif agent == "sentiment" %}
+
+            <strong>Classification:</strong>
+            {{ result.sentiment }}
+
+            <br><br>
+
+            <strong>Confidence:</strong>
+            {{ result.confidence }}%
+
+            <br><br>
+
+            <strong>Reasoning:</strong>
+            {{ result.reasoning }}
+
+        {% elif agent == "risk" %}
+
+            <strong>Classification:</strong>
+            {{ result.risk }}
+
+            <br><br>
+
+            <strong>Confidence:</strong>
+            {{ result.confidence }}%
+
+            <br><br>
+
+            <strong>Reasoning:</strong>
+            {{ result.reasoning }}
+
+        {% elif agent == "decision" %}
+
+            <strong>Recommendation:</strong>
+            {{ result.action_label }}
+
+            <br><br>
+
+            <strong>Reasoning:</strong>
+            {{ result.reasoning }}
+
+        {% elif agent == "explanation" %}
+
+            {{ result.explanation }}
+
+            {% if result.error %}
+
+            <br><br>
+
+            <span style="color:#f39c12;">
+                Gemini unavailable. Fallback explanation generated.
+            </span>
+
+            {% endif %}
+
+        {% endif %}
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

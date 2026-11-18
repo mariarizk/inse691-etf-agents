@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1>Communication Log</h1>
+
+<table>
+
+<tr>
+
+    <th>Time</th>
+    <th>Agent</th>
+    <th>Result</th>
+
+</tr>
+
+{% for log in logs %}
+
+<tr>
+
+    <td>{{ log.timestamp }}</td>
+
+    <td>{{ log.agent }}</td>
+
+    <td>{{ log.result }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}
