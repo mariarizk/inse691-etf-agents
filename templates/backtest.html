@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1>Backtesting Results</h1>
+
+<div class="chart-card">
+
+    <h2>Equity Curve</h2>
+
+    <img src="/data/equity_curve.png">
+
+</div>
+
+<div class="chart-card">
+
+    <h2>Drawdown</h2>
+
+    <img src="/data/drawdown.png">
+
+</div>
+
+<div class="chart-card">
+
+    <h2>Rolling Sharpe</h2>
+
+    <img src="/data/rolling_sharpe.png">
+
+</div>
+
+<div class="chart-card">
+
+    <h2>Rolling Volatility</h2>
+
+    <img src="/data/rolling_volatility.png">
+
+</div>
+
+<div class="chart-card">
+
+    <h2>Returns Histogram</h2>
+
+    <img src="/data/returns_histogram.png">
+
+</div>
+
+<div class="chart-card">
+
+    <h2>MAS vs Buy-and-Hold</h2>
+
+    <img src="/data/mas_vs_buyhold.png">
+
+</div>
+
+{% endblock %}

@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from google import genai
-
+import time
 load_dotenv()
 
 
@@ -23,17 +23,27 @@ class GeminiClient:
 
     def generate(self, prompt):
 
-        try:
+        for attempt in range(3):
 
-            response = self.client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=prompt
-            )
+            try:
 
-            return response.text
+                response = (
+                    self.client.models.generate_content(
+                        model="gemini-2.5-flash",
+                        contents=prompt
+                    )
+                )
 
-        except Exception as e:
+                return response.text
 
-            raise RuntimeError(
-                f"Gemini request failed: {e}"
-            )
+            except Exception as e:
+
+                if attempt < 2:
+
+                    time.sleep(2)
+
+                else:
+
+                    raise RuntimeError(
+                        f"Gemini request failed: {e}"
+                    )

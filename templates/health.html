@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1>System Health</h1>
+
+<div class="card">
+
+    {% for key, value in health.items() %}
+
+    <p>
+
+        <strong>
+            {{ key }}
+        </strong>
+
+        :
+
+        {{ value }}
+
+    </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
