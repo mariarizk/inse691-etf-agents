@@ -8,95 +8,9 @@ import pandas as pd
 
 from backend.etf_pipeline import ETFPipeline
 from backend.system_health import SystemHealth
+from backend.agentlogger import AgentLogger
+
 from agents.conversation_agent import ConversationAgent
-
-
-
-
-app = FastAPI(
-    title="QQQ Multi-Agent Decision Support System"
-)
-
-pipeline = ETFPipeline()
-
-templates = Jinja2Templates(
-    directory="templates"
-)
-
-app.mount(
-    "/static",
-    StaticFiles(directory="static"),
-    name="static"
-)
-
-app.mount(
-    "/data",
-    StaticFiles(directory="data"),
-    name="data"
-)
-
-
-@app.get("/")
-async def dashboard(request: Request):
-
-    return templates.TemplateResponse(
-        request=request,
-        name="dashboard.html",
-        context={
-            "result": None,
-            "error": None
-        }
-    )
-
-@app.post("/analyze")
-async def analyze(
-    request: Request,
-    article: str = Form(...)
-):
-
-    try:
-
-        price_df = pd.read_csv(
-            "data/QQQ.csv",
-            parse_dates=["Date"],
-            index_col="Date"
-        )
-
-        result = pipeline.run(
-            price_df,
-            article
-        )
-
-        return templates.TemplateResponse(
-            request=request,
-            name="dashboard.html",
-            context={
-                "result": result
-            }
-        )
-
-    except Exception as e:
-
-        return templates.TemplateResponse(
-            request=request,
-            name="dashboard.html",
-            context={
-                "error": str(e)
-            }
-        )
-    
-@app.get("/agents")
-async def agents(request: Request):
-
-    return templates.TemplateResponse(
-        request=request,
-        name="agents.html",
-        context={
-            "agents": pipeline.blackboard.all()
-        }
-    )
-
-
 
 
 app = FastAPI(
@@ -123,6 +37,9 @@ app.mount(
     name="data"
 )
 
+# =====================================================
+# DASHBOARD
+# =====================================================
 
 @app.get("/")
 async def dashboard(request: Request):
@@ -136,6 +53,10 @@ async def dashboard(request: Request):
         }
     )
 
+
+# =====================================================
+# ANALYZE ARTICLE
+# =====================================================
 
 @app.post("/analyze")
 async def analyze(
@@ -156,7 +77,6 @@ async def analyze(
             article
         )
 
-        # Save article and analysis
         conversation_agent.store_analysis(
             article_text=article,
             blackboard_data=result
@@ -184,6 +104,10 @@ async def analyze(
         )
 
 
+# =====================================================
+# CONVERSATION AGENT
+# =====================================================
+
 @app.post("/chat")
 async def chat(
     request: Request,
@@ -196,22 +120,36 @@ async def chat(
             user_message=message
         )
 
-        return {
-            "response": response
-        }
+        return templates.TemplateResponse(
+            request=request,
+            name="dashboard.html",
+            context={
+                "conversation_response": response,
+                "result": conversation_agent.session_state[
+                    "last_analysis"
+                ],
+                "error": None
+            }
+        )
 
     except Exception as e:
 
-        return {
-            "error": str(e)
-        }
+        return templates.TemplateResponse(
+            request=request,
+            name="dashboard.html",
+            context={
+                "error": str(e)
+            }
+        )
 
+# =====================================================
+# AGENT OUTPUTS
+# =====================================================
 
 @app.get("/agents")
-async def agents(request: Request):
-
-    print("BLACKBOARD CONTENTS:")
-    print(pipeline.blackboard.all())
+async def agents(
+    request: Request
+):
 
     return templates.TemplateResponse(
         request=request,
@@ -221,8 +159,15 @@ async def agents(request: Request):
         }
     )
 
+
+# =====================================================
+# BLACKBOARD COMMUNICATION LOGS
+# =====================================================
+
 @app.get("/logs")
-async def logs(request: Request):
+async def logs(
+    request: Request
+):
 
     return templates.TemplateResponse(
         request=request,
@@ -233,8 +178,30 @@ async def logs(request: Request):
     )
 
 
+# =====================================================
+# AGENT EXECUTION LOGS
+# =====================================================
+
+@app.get("/agent-logs")
+async def agent_logs(
+    request: Request
+):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="agent_logs.html",
+        context={
+            "logs": AgentLogger.get_logs()
+        }
+    )
+# =====================================================
+# BACKTEST PAGE
+# =====================================================
+
 @app.get("/backtest")
-async def backtest(request: Request):
+async def backtest(
+    request: Request
+):
 
     return templates.TemplateResponse(
         request=request,
@@ -243,8 +210,14 @@ async def backtest(request: Request):
     )
 
 
+# =====================================================
+# SYSTEM HEALTH
+# =====================================================
+
 @app.get("/health")
-async def health(request: Request):
+async def health(
+    request: Request
+):
 
     return templates.TemplateResponse(
         request=request,
@@ -254,7 +227,15 @@ async def health(request: Request):
         }
     )
 
+
+# =====================================================
+# DEBUG
+# =====================================================
+
 @app.get("/debug")
 async def debug():
 
-    return pipeline.blackboard.all()
+    return {
+        "blackboard": pipeline.blackboard.all(),
+        "agent_logs": AgentLogger.get_logs()
+    }
