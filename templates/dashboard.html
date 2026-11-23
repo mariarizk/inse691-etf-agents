@@ -9,7 +9,8 @@
     <p>
         Analyze financial news using a coordinated
         multi-agent system consisting of Technical,
-        Sentiment, Risk, Decision, and Explanation Agents.
+        Sentiment, Risk, Decision, Explanation,
+        and Conversation Agents.
     </p>
 
 </div>
@@ -30,13 +31,12 @@
 
             Welcome to the QQQ Multi-Agent Intelligence System.
 
-            Paste a financial news article below and I will:
-
             <ul>
                 <li>Analyze sentiment</li>
                 <li>Assess risk</li>
                 <li>Generate a recommendation</li>
                 <li>Explain the reasoning</li>
+                <li>Answer follow-up questions</li>
                 <li>Record agent communications</li>
             </ul>
 
@@ -57,11 +57,17 @@
             Recommendation:
 
             {% if result.decision.action == 1 %}
+
                 <span class="buy">BUY</span>
+
             {% elif result.decision.action == 0 %}
+
                 <span class="hold">HOLD</span>
+
             {% else %}
+
                 <span class="sell">SELL</span>
+
             {% endif %}
 
         </div>
@@ -88,6 +94,11 @@
 
             <br><br>
 
+            Tool Used:
+            {{ result.sentiment.tool_used }}
+
+            <br><br>
+
             Reasoning:
 
             {{ result.sentiment.reasoning }}
@@ -108,6 +119,11 @@
 
             <br><br>
 
+            Tool Used:
+            {{ result.risk.tool_used }}
+
+            <br><br>
+
             Reasoning:
 
             {{ result.risk.reasoning }}
@@ -118,7 +134,32 @@
 
             <strong>Explanation Agent</strong><br><br>
 
+            Tool Used:
+            {{ result.explanation.tool_used }}
+
+            <br><br>
+
             {{ result.explanation.explanation }}
+
+        </div>
+
+        {% endif %}
+
+        {% if conversation_response %}
+
+        <div class="user-message">
+
+            {{ user_question }}
+
+        </div>
+
+        <div class="assistant-message">
+
+            <strong>Conversation Agent</strong>
+
+            <br><br>
+
+            {{ conversation_response }}
 
         </div>
 
@@ -136,6 +177,8 @@
 
     </div>
 
+    <!-- ARTICLE ANALYSIS -->
+
     <form action="/analyze" method="post">
 
         <textarea
@@ -151,6 +194,38 @@
         </button>
 
     </form>
+
+    <!-- FOLLOW-UP QUESTIONS -->
+
+    {% if result %}
+
+    <hr>
+
+    <h3>Ask a Follow-Up Question</h3>
+
+    <form action="/chat" method="post">
+
+        <input
+            type="text"
+            name="message"
+            placeholder="Why did QQQ fall despite Nvidia being the main issue?"
+            required
+            style="
+                width:100%;
+                padding:12px;
+                margin-bottom:10px;
+            "
+        >
+
+        <button type="submit">
+
+            Ask Conversation Agent
+
+        </button>
+
+    </form>
+
+    {% endif %}
 
 </div>
 

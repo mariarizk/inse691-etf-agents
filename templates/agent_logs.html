@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1>Agent Execution Logs</h1>
+
+<p>
+    Displays tool-selection decisions, execution status,
+    execution times, and metadata recorded by AgentLogger.
+</p>
+
+<table>
+
+    <tr>
+        <th>Timestamp</th>
+        <th>Agent</th>
+        <th>Tool Used</th>
+        <th>Status</th>
+        <th>Execution Time (ms)</th>
+        <th>Metadata</th>
+    </tr>
+
+    {% for log in logs %}
+
+    <tr>
+
+        <td>
+            {{ log.timestamp }}
+        </td>
+
+        <td>
+            {{ log.agent }}
+        </td>
+
+        <td>
+            {{ log.tool_used }}
+        </td>
+
+        <td>
+
+            {% if log.status == "success" %}
+
+                <span style="color:green;">
+                    Success
+                </span>
+
+            {% elif log.status == "fallback" %}
+
+                <span style="color:orange;">
+                    Fallback
+                </span>
+
+            {% else %}
+
+                <span style="color:red;">
+                    {{ log.status }}
+                </span>
+
+            {% endif %}
+
+        </td>
+
+        <td>
+            {{ log.execution_time_ms }}
+        </td>
+
+        <td>
+            {{ log.metadata }}
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}

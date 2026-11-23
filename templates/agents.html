@@ -6,86 +6,151 @@
 
 <table>
 
-<tr>
-    <th>Agent</th>
-    <th>Output</th>
-</tr>
+    <tr>
+        <th>Agent</th>
+        <th>Output</th>
+    </tr>
 
-{% for agent, result in agents.items() %}
+    {% for agent, result in agents.items() %}
 
-<tr>
+        {% if agent != "pipeline_result" %}
 
-    <td>
-        {{ agent|title }}
-    </td>
+        <tr>
 
-    <td>
+            <td>
+                {{ agent|title }}
+            </td>
 
-        {% if agent == "technical" %}
+            <td>
 
-            Signal: {{ result }}
+                {% if agent == "technical" %}
 
-        {% elif agent == "sentiment" %}
+                    <strong>Signal:</strong>
+                    {{ result }}
 
-            <strong>Classification:</strong>
-            {{ result.sentiment }}
+                {% elif agent == "sentiment" %}
 
-            <br><br>
+                    <strong>Classification:</strong>
+                    {{ result.sentiment }}
 
-            <strong>Confidence:</strong>
-            {{ result.confidence }}%
+                    <br><br>
 
-            <br><br>
+                    <strong>Confidence:</strong>
+                    {{ result.confidence }}%
 
-            <strong>Reasoning:</strong>
-            {{ result.reasoning }}
+                    <br><br>
 
-        {% elif agent == "risk" %}
+                    <strong>Tool Used:</strong>
+                    {{ result.tool_used }}
 
-            <strong>Classification:</strong>
-            {{ result.risk }}
+                    <br><br>
 
-            <br><br>
+                    <strong>Reasoning:</strong>
+                    {{ result.reasoning }}
 
-            <strong>Confidence:</strong>
-            {{ result.confidence }}%
+                {% elif agent == "risk" %}
 
-            <br><br>
+                    <strong>Classification:</strong>
+                    {{ result.risk }}
 
-            <strong>Reasoning:</strong>
-            {{ result.reasoning }}
+                    <br><br>
 
-        {% elif agent == "decision" %}
+                    <strong>Confidence:</strong>
+                    {{ result.confidence }}%
 
-            <strong>Recommendation:</strong>
-            {{ result.action_label }}
+                    <br><br>
 
-            <br><br>
+                    <strong>Tool Used:</strong>
+                    {{ result.tool_used }}
 
-            <strong>Reasoning:</strong>
-            {{ result.reasoning }}
+                    <br><br>
 
-        {% elif agent == "explanation" %}
+                    <strong>Reasoning:</strong>
+                    {{ result.reasoning }}
 
-            {{ result.explanation }}
+                {% elif agent == "decision" %}
 
-            {% if result.error %}
+                    <strong>Recommendation:</strong>
 
-            <br><br>
+                    {% if result.action_label == "BUY" %}
 
-            <span style="color:#f39c12;">
-                Gemini unavailable. Fallback explanation generated.
-            </span>
+                        <span style="color:green;">
+                            BUY
+                        </span>
 
-            {% endif %}
+                    {% elif result.action_label == "SELL" %}
+
+                        <span style="color:red;">
+                            SELL
+                        </span>
+
+                    {% else %}
+
+                        <span style="color:orange;">
+                            HOLD
+                        </span>
+
+                    {% endif %}
+
+                    <br><br>
+
+                    <strong>Reasoning:</strong>
+                    {{ result.reasoning }}
+
+                {% elif agent == "explanation" %}
+
+                    <strong>Tool Used:</strong>
+                    {{ result.tool_used }}
+
+                    <br><br>
+
+                    <strong>Consistency Check:</strong>
+
+                    {% if result.consistency %}
+
+                        <span style="color:green;">
+                            Passed
+                        </span>
+
+                    {% else %}
+
+                        <span style="color:orange;">
+                            Fallback Used
+                        </span>
+
+                    {% endif %}
+
+                    <br><br>
+
+                    <strong>Explanation:</strong>
+
+                    <br><br>
+
+                    {{ result.explanation }}
+
+                    {% if result.error %}
+
+                        <br><br>
+
+                        <span style="color:#f39c12;">
+                            Fallback explanation generated successfully.
+                        </span>
+
+                    {% endif %}
+
+                {% else %}
+
+                    {{ result }}
+
+                {% endif %}
+
+            </td>
+
+        </tr>
 
         {% endif %}
 
-    </td>
-
-</tr>
-
-{% endfor %}
+    {% endfor %}
 
 </table>
 
