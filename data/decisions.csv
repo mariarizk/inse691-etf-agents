@@ -1,252 +1,252 @@
-Date,decision
-2025-10-02,{'action': -1}
-2025-10-03,{'action': -1}
-2025-10-06,{'action': -1}
-2025-10-07,{'action': -1}
-2025-10-08,{'action': -1}
-2025-10-09,{'action': -1}
-2025-10-10,{'action': -1}
-2025-10-13,{'action': -1}
-2025-10-14,{'action': -1}
-2025-10-15,{'action': -1}
-2025-10-16,{'action': -1}
-2025-10-17,{'action': -1}
-2025-10-20,{'action': -1}
-2025-10-21,{'action': -1}
-2025-10-22,{'action': -1}
-2025-10-23,{'action': -1}
-2025-10-24,{'action': -1}
-2025-10-27,{'action': -1}
-2025-10-28,{'action': -1}
-2025-10-29,{'action': -1}
-2025-10-30,{'action': -1}
-2025-10-31,{'action': 0}
-2025-11-03,{'action': 0}
-2025-11-04,{'action': -1}
-2025-11-05,{'action': 0}
-2025-11-06,{'action': -1}
-2025-11-07,{'action': 0}
-2025-11-10,{'action': 0}
-2025-11-11,{'action': 0}
-2025-11-12,{'action': 0}
-2025-11-13,{'action': -1}
-2025-11-14,{'action': 0}
-2025-11-17,{'action': 0}
-2025-11-18,{'action': -1}
-2025-11-19,{'action': -1}
-2025-11-20,{'action': -1}
-2025-11-21,{'action': -1}
-2025-11-24,{'action': -1}
-2025-11-25,{'action': -1}
-2025-11-26,{'action': -1}
-2025-11-28,{'action': -1}
-2025-12-01,{'action': -1}
-2025-12-02,{'action': -1}
-2025-12-03,{'action': -1}
-2025-12-04,{'action': -1}
-2025-12-05,{'action': -1}
-2025-12-08,{'action': 0}
-2025-12-09,{'action': 0}
-2025-12-10,{'action': 0}
-2025-12-11,{'action': 0}
-2025-12-12,{'action': -1}
-2025-12-15,{'action': 0}
-2025-12-16,{'action': 0}
-2025-12-17,{'action': -1}
-2025-12-18,{'action': 0}
-2025-12-19,{'action': 0}
-2025-12-22,{'action': 0}
-2025-12-23,{'action': 0}
-2025-12-24,{'action': 0}
-2025-12-26,{'action': 0}
-2025-12-29,{'action': 0}
-2025-12-30,{'action': 0}
-2025-12-31,{'action': 0}
-2026-01-02,{'action': 0}
-2026-01-05,{'action': 0}
-2026-01-06,{'action': 0}
-2026-01-07,{'action': 0}
-2026-01-08,{'action': 0}
-2026-01-09,{'action': 0}
-2026-01-12,{'action': 0}
-2026-01-13,{'action': 0}
-2026-01-14,{'action': -1}
-2026-01-15,{'action': 0}
-2026-01-16,{'action': 0}
-2026-01-20,{'action': -1}
-2026-01-21,{'action': 1}
-2026-01-22,{'action': 0}
-2026-01-23,{'action': 0}
-2026-01-26,{'action': 0}
-2026-01-27,{'action': 0}
-2026-01-28,{'action': 0}
-2026-01-29,{'action': 0}
-2026-01-30,{'action': -1}
-2026-02-02,{'action': 0}
-2026-02-03,{'action': -1}
-2026-02-04,{'action': -1}
-2026-02-05,{'action': -1}
-2026-02-06,{'action': -1}
-2026-02-09,{'action': -1}
-2026-02-10,{'action': -1}
-2026-02-11,{'action': -1}
-2026-02-12,{'action': -1}
-2026-02-13,{'action': -1}
-2026-02-17,{'action': -1}
-2026-02-18,{'action': -1}
-2026-02-19,{'action': -1}
-2026-02-20,{'action': -1}
-2026-02-23,{'action': -1}
-2026-02-24,{'action': -1}
-2026-02-25,{'action': -1}
-2026-02-26,{'action': -1}
-2026-02-27,{'action': -1}
-2026-03-02,{'action': -1}
-2026-03-03,{'action': -1}
-2026-03-04,{'action': -1}
-2026-03-05,{'action': -1}
-2026-03-06,{'action': -1}
-2026-03-09,{'action': -1}
-2026-03-10,{'action': -1}
-2026-03-11,{'action': -1}
-2026-03-12,{'action': -1}
-2026-03-13,{'action': -1}
-2026-03-16,{'action': -1}
-2026-03-17,{'action': -1}
-2026-03-18,{'action': -1}
-2026-03-19,{'action': -1}
-2026-03-20,{'action': -1}
-2026-03-23,{'action': -1}
-2026-03-24,{'action': -1}
-2026-03-25,{'action': -1}
-2026-03-26,{'action': -1}
-2026-03-27,{'action': -1}
-2026-03-30,{'action': -1}
-2026-03-31,{'action': -1}
-2026-04-01,{'action': -1}
-2026-04-02,{'action': -1}
-2026-04-06,{'action': -1}
-2026-04-07,{'action': -1}
-2026-04-08,{'action': -1}
-2026-04-09,{'action': -1}
-2026-04-10,{'action': -1}
-2026-04-13,{'action': -1}
-2026-04-14,{'action': 0}
-2026-04-15,{'action': 0}
-2026-04-16,{'action': 0}
-2026-04-17,{'action': 0}
-2026-04-20,{'action': 0}
-2026-04-21,{'action': 0}
-2026-04-22,{'action': 0}
-2026-04-23,{'action': 0}
-2026-04-24,{'action': 0}
-2026-04-27,{'action': 0}
-2026-04-28,{'action': -1}
-2026-04-29,{'action': 0}
-2026-04-30,{'action': 0}
-2026-05-01,{'action': 0}
-2026-05-04,{'action': 0}
-2026-05-05,{'action': 1}
-2026-05-06,{'action': 1}
-2026-05-07,{'action': 0}
-2026-05-08,{'action': 1}
-2026-05-11,{'action': 0}
-2026-05-12,{'action': 0}
-2026-05-13,{'action': 1}
-2026-05-14,{'action': 0}
-2026-05-15,{'action': -1}
-2026-05-18,{'action': 0}
-2026-05-19,{'action': 0}
-2026-05-20,{'action': 0}
-2026-05-21,{'action': 0}
-2026-05-22,{'action': 0}
-2026-05-26,{'action': 0}
-2026-05-27,{'action': 0}
-2026-05-28,{'action': 0}
-2026-05-29,{'action': 0}
-2026-06-01,{'action': 0}
-2026-06-02,{'action': 0}
-2026-06-03,{'action': 0}
-2026-06-04,{'action': 0}
-2026-06-05,{'action': -1}
-2026-06-08,{'action': 0}
-2026-06-09,{'action': -1}
-2026-06-10,{'action': -1}
-2026-06-11,{'action': 0}
-2026-06-12,{'action': 0}
-2026-06-15,{'action': 0}
-2026-06-16,{'action': -1}
-2026-06-17,{'action': -1}
-2026-06-18,{'action': -1}
-2026-06-22,{'action': 0}
-2026-06-23,{'action': -1}
-2026-06-24,{'action': 0}
-2026-06-25,{'action': -1}
-2026-06-26,{'action': -1}
-2026-06-29,{'action': -1}
-2026-06-30,{'action': -1}
-2026-07-01,{'action': -1}
-2026-07-02,{'action': -1}
-2026-07-06,{'action': -1}
-2026-07-07,{'action': -1}
-2026-07-08,{'action': -1}
-2026-07-09,{'action': -1}
-2026-07-10,{'action': -1}
-2026-07-13,{'action': -1}
-2026-07-14,{'action': -1}
-2026-07-15,{'action': -1}
-2026-07-16,{'action': -1}
-2026-07-17,{'action': -1}
-2026-07-20,{'action': -1}
-2026-07-21,{'action': -1}
-2026-07-22,{'action': -1}
-2026-07-23,{'action': -1}
-2026-07-24,{'action': -1}
-2026-07-27,{'action': -1}
-2026-07-28,{'action': -1}
-2026-07-29,{'action': -1}
-2026-07-30,{'action': -1}
-2026-07-31,{'action': -1}
-2026-08-03,{'action': -1}
-2026-08-04,{'action': -1}
-2026-08-05,{'action': -1}
-2026-08-06,{'action': -1}
-2026-08-07,{'action': -1}
-2026-08-10,{'action': -1}
-2026-08-11,{'action': -1}
-2026-08-12,{'action': 0}
-2026-08-13,{'action': 0}
-2026-08-14,{'action': 0}
-2026-08-17,{'action': 0}
-2026-08-18,{'action': -1}
-2026-08-19,{'action': 0}
-2026-08-20,{'action': 0}
-2026-08-21,{'action': 0}
-2026-08-24,{'action': 0}
-2026-08-25,{'action': 0}
-2026-08-26,{'action': 0}
-2026-08-27,{'action': 0}
-2026-08-28,{'action': 0}
-2026-08-31,{'action': 0}
-2026-09-01,{'action': -1}
-2026-09-02,{'action': 0}
-2026-09-03,{'action': 1}
-2026-09-04,{'action': 0}
-2026-09-08,{'action': 0}
-2026-09-09,{'action': 0}
-2026-09-10,{'action': -1}
-2026-09-11,{'action': -1}
-2026-09-14,{'action': -1}
-2026-09-15,{'action': -1}
-2026-09-16,{'action': -1}
-2026-09-17,{'action': -1}
-2026-09-18,{'action': -1}
-2026-09-21,{'action': -1}
-2026-09-22,{'action': 0}
-2026-09-23,{'action': 0}
-2026-09-24,{'action': 0}
-2026-09-25,{'action': 0}
-2026-09-28,{'action': -1}
-2026-09-29,{'action': 0}
-2026-09-30,{'action': 0}
-2026-10-01,{'action': 0}
+Date,action,action_label,reasoning
+2025-10-02,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-03,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-06,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-07,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-08,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-09,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-10,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-13,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-14,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-15,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-16,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-17,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-20,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-21,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-22,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-23,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-24,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-27,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-28,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-29,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-30,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-10-31,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-11-03,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-11-04,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-11-05,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-11-06,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-11-07,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-11-10,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-11-11,0,HOLD,Warm-up: insufficient history for 30-day MA.
+2025-11-12,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-11-13,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2025-11-14,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-11-17,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-11-18,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2025-11-19,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-11-20,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2025-11-21,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-11-24,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2025-11-25,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-11-26,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-11-28,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-12-01,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-12-02,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-12-03,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-12-04,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-12-05,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2025-12-08,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-12-09,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-12-10,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-12-11,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-12-12,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2025-12-15,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-12-16,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-12-17,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2025-12-18,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2025-12-19,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2025-12-22,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2025-12-23,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2025-12-24,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2025-12-26,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2025-12-29,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2025-12-30,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2025-12-31,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-02,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-05,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-06,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-07,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-08,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-09,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-12,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-13,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-14,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Low"
+2026-01-15,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-16,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-20,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Low"
+2026-01-21,1,BUY,"Technical=bullish, Sentiment=Positive, Risk=Low"
+2026-01-22,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-23,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-26,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-27,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-28,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-29,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-01-30,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Low"
+2026-02-02,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-02-03,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Low"
+2026-02-04,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Low"
+2026-02-05,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-02-06,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-02-09,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-02-10,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-02-11,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-02-12,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-02-13,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-02-17,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-02-18,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-02-19,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-02-20,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-02-23,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-02-24,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-02-25,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-02-26,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-02-27,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-02,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-03,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-03-04,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-03-05,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-06,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-03-09,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-03-10,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-11,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-12,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-03-13,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Low"
+2026-03-16,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-03-17,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-18,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-03-19,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-20,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-03-23,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-03-24,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-25,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-26,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-03-27,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-03-30,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-03-31,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-04-01,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-04-02,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-04-06,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-04-07,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-04-08,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-04-09,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-04-10,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-04-13,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-04-14,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-04-15,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-04-16,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-04-17,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-04-20,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-04-21,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-04-22,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-04-23,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-04-24,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-04-27,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-04-28,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-04-29,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-04-30,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-05-01,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-05-04,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-05-05,1,BUY,"Technical=bullish, Sentiment=Positive, Risk=Low"
+2026-05-06,1,BUY,"Technical=bullish, Sentiment=Positive, Risk=Low"
+2026-05-07,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-05-08,1,BUY,"Technical=bullish, Sentiment=Positive, Risk=Low"
+2026-05-11,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-05-12,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-05-13,1,BUY,"Technical=bullish, Sentiment=Positive, Risk=Low"
+2026-05-14,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-05-15,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-05-18,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-05-19,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-05-20,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-05-21,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-05-22,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-05-26,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-05-27,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-05-28,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-05-29,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-06-01,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-06-02,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-06-03,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-06-04,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-06-05,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-06-08,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-06-09,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-06-10,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-06-11,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-06-12,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-06-15,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-06-16,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-06-17,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-06-18,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-06-22,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-06-23,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=High"
+2026-06-24,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-06-25,-1,SELL,"Technical=bullish, Sentiment=Neutral, Risk=High"
+2026-06-26,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=High"
+2026-06-29,-1,SELL,"Technical=bullish, Sentiment=Positive, Risk=High"
+2026-06-30,-1,SELL,"Technical=bullish, Sentiment=Positive, Risk=High"
+2026-07-01,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=High"
+2026-07-02,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=High"
+2026-07-06,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=High"
+2026-07-07,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-07-08,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-07-09,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-07-10,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-07-13,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-07-14,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-07-15,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-07-16,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-07-17,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-07-20,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-07-21,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-07-22,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-07-23,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-07-24,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-07-27,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-07-28,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-07-29,-1,SELL,"Technical=bearish, Sentiment=Negative, Risk=Medium"
+2026-07-30,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-07-31,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-08-03,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-08-04,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-08-05,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-08-06,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-08-07,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-08-10,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-08-11,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Medium"
+2026-08-12,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-13,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-08-14,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-17,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-18,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-08-19,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-20,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-21,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-24,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-25,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-26,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-27,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Positive, Risk=Medium"
+2026-08-28,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-08-31,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-09-01,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Low"
+2026-09-02,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-09-03,1,BUY,"Technical=bullish, Sentiment=Positive, Risk=Low"
+2026-09-04,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-09-08,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-09-09,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-09-10,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Low"
+2026-09-11,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Low"
+2026-09-14,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Low"
+2026-09-15,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Low"
+2026-09-16,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Low"
+2026-09-17,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Low"
+2026-09-18,-1,SELL,"Technical=bearish, Sentiment=Neutral, Risk=Low"
+2026-09-21,-1,SELL,"Technical=bearish, Sentiment=Positive, Risk=Medium"
+2026-09-22,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-09-23,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-09-24,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-09-25,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-09-28,-1,SELL,"Technical=bullish, Sentiment=Negative, Risk=Medium"
+2026-09-29,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Medium"
+2026-09-30,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"
+2026-10-01,0,HOLD,"Mixed signals: Technical=bullish, Sentiment=Neutral, Risk=Low"

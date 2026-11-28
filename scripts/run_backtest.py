@@ -1,77 +1,72 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+"""Run historic MAS backtest on collected QQQ.csv data.
 
-import pandas as pd
+Default (design-spec): price rules only, no Gemini calls.
+Optional LLM news days:
+  python scripts/run_backtest.py --news data/news_history.csv --llm-news
+"""
+
+import argparse
+import os
+import sys
+
+sys.path.append(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
+
 import matplotlib.pyplot as plt
 
-from backend.etf_pipeline import ETFPipeline
-from backend.backtest import Backtester
-from backend.metrics import compute_all_metrics
-
-# -----------------------------
-# 1. Load QQQ price data
-# -----------------------------
-
-price_df = pd.read_csv("data/QQQ.csv", parse_dates=["Date"], index_col="Date")
-print(price_df.columns)
-
-# -----------------------------
-# 2. Load news (optional)
-# -----------------------------
-headlines = []  # no news for now
-
-# -----------------------------
-# 3. Run MAS pipeline daily
-# -----------------------------
-decisions = []
-for date in price_df.index:
-    daily_df = price_df.loc[:date]
-    pipeline = ETFPipeline(daily_df, headlines)
-    result = pipeline.run()
-    decisions.append({"action": result["decision"]["action"]})
+from backend.historic_backtest import run_historic_backtest
 
 
-# -----------------------------
-# 4. Backtest
-# -----------------------------
-bt = Backtester(price_df, decisions)
-backtest_output = bt.run()
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Historic QQQ multi-agent backtest"
+    )
+    parser.add_argument(
+        "--price",
+        default="data/QQQ.csv",
+        help="Historic price CSV (Date, Close)",
+    )
+    parser.add_argument(
+        "--news",
+        default=None,
+        help="Optional news CSV (Date, article) for LLM days",
+    )
+    parser.add_argument(
+        "--llm-news",
+        action="store_true",
+        help="Use ETFPipeline/LLM for days that have news text",
+    )
+    return parser.parse_args()
 
-equity = backtest_output["equity_curve"]
-returns = backtest_output["returns"]
 
-# -----------------------------
-# 5. Save outputs
-# -----------------------------
-equity.to_csv("data/equity_curve.csv")
-returns.to_csv("data/returns.csv")
+def main():
+    args = parse_args()
 
-pd.DataFrame({"decision": decisions}, index=price_df.index).to_csv("data/decisions.csv")
+    result = run_historic_backtest(
+        price_csv=args.price,
+        news_csv=args.news,
+        use_llm_news=args.llm_news,
+        save_outputs=True,
+    )
 
-print("Saved equity_curve.csv, returns.csv, decisions.csv")
+    equity = result["backtest"]["equity_curve"]
+    metrics = result["metrics"]
 
-# -----------------------------
-# 6. Compute metrics
-# -----------------------------
-metrics = compute_all_metrics(equity, returns)
+    print("\n=== MAS Strategy Performance Metrics ===\n")
+    for key, value in metrics.items():
+        print(f"{key}: {value:.4f}")
 
-print("\n=== MAS Strategy Performance Metrics ===\n")
-for key, value in metrics.items():
-    print(f"{key}: {value:.4f}")
+    plt.figure(figsize=(12, 6))
+    plt.plot(equity, label="MAS Strategy Equity Curve", color="blue")
+    plt.title("MAS Strategy Equity Curve for QQQ")
+    plt.xlabel("Date")
+    plt.ylabel("Equity Value")
+    plt.legend()
+    plt.grid(True)
+    plt.savefig("data/equity_curve.png")
+    print("\nSaved data/equity_curve.csv, returns.csv, decisions.csv, equity_curve.png")
 
-# -----------------------------
-# 7. Plot equity curve
-# -----------------------------
-plt.figure(figsize=(12,6))
-plt.plot(equity, label="MAS Strategy Equity Curve", color="blue")
-plt.title("MAS Strategy Equity Curve for QQQ")
-plt.xlabel("Date")
-plt.ylabel("Equity Value")
-plt.legend()
-plt.grid(True)
 
-plt.savefig("data/equity_curve.png")
-print("Saved equity_curve.png")
-
-plt.show()
+if __name__ == "__main__":
+    main()

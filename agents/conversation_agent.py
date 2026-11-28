@@ -184,6 +184,9 @@ Return ONLY valid JSON:
 }}
 """
 
+        if not self.gemini.available:
+            return "retrieve_full_analysis"
+
         try:
 
             response = self.gemini.generate(

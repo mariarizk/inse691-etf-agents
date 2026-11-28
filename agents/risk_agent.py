@@ -15,6 +15,7 @@ class RiskAgent:
 
     def __init__(self):
 
+        # Lazy-ready client: rule-based path works without an API key.
         self.gemini = GeminiClient()
 
     # =====================================================
@@ -52,6 +53,9 @@ Return ONLY valid JSON:
     "tool": "llm_risk_analysis"
 }}
 """
+
+        if not self.gemini.available:
+            return "rule_based_risk_analysis"
 
         try:
 
