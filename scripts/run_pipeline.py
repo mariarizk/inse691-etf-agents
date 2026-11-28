@@ -1,30 +1,36 @@
-import sys
+"""Run one live pipeline analysis on the latest QQQ history + a sample article."""
+
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+
+sys.path.append(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
 
 import pandas as pd
 
 from backend.etf_pipeline import ETFPipeline
-from backend.backtest import Backtester
-
-# 1. Load QQQ price data
-price_df = pd.read_csv("data/QQQ.csv", parse_dates=["Date"], index_col="Date")
-
-# 2. No news for now
-headlines = []
-
-# 3. Run pipeline daily
-decisions = []
-for date in price_df.index:
-    daily_df = price_df.loc[:date]
-    pipeline = ETFPipeline(daily_df, headlines)
-    result = pipeline.run()
-    decisions.append({"action": result["decision"]["action"]})
 
 
-# 4. Backtest
-bt = Backtester(price_df, decisions)
-backtest_output = bt.run()
+def main():
+    price_df = pd.read_csv(
+        "data/QQQ.csv",
+        parse_dates=["Date"],
+        index_col="Date",
+    )
 
-print("Final equity:", backtest_output["equity_curve"].iloc[-1])
-print(result)
+    article = (
+        "Microsoft reported stronger-than-expected earnings and raised "
+        "guidance for next quarter. Analysts remain optimistic about "
+        "continued growth in cloud and AI demand."
+    )
+
+    result = ETFPipeline().run(price_df, article)
+
+    print("\n=== Live Pipeline Result ===\n")
+    for key, value in result.items():
+        print(f"{key}: {value}\n")
+
+
+if __name__ == "__main__":
+    main()

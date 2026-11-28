@@ -1,36 +1,37 @@
-import sys
 import os
+import sys
+import unittest
 
 sys.path.append(
-    os.path.dirname(
-        os.path.dirname(
-            os.path.abspath(__file__)
-        )
-    )
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 )
+
 from agents.risk_agent import RiskAgent
 
-agent = RiskAgent()
 
-article = """
-NVIDIA is facing increased regulatory scrutiny regarding
-AI chip exports. Analysts believe additional restrictions
-could impact future revenue growth.
-"""
+class TestRiskAgent(unittest.TestCase):
 
-result = agent.analyze(article)
+    def setUp(self):
+        self.agent = RiskAgent()
+        self.article = (
+            "NVIDIA is facing increased regulatory scrutiny regarding "
+            "AI chip exports. Analysts believe additional restrictions "
+            "could impact future revenue growth amid litigation risk."
+        )
 
-print("\n=== Risk Agent Test ===\n")
-print(result)
+    def test_analyze_returns_valid_structure(self):
+        result = self.agent.analyze(self.article)
+        self.assertIn(result["risk"], ["Low", "Medium", "High"])
+        self.assertTrue(0 <= result["confidence"] <= 100)
+        self.assertGreater(len(result["reasoning"]), 0)
+        self.assertIn("tool_used", result)
 
-assert result["risk"] in [
-    "Low",
-    "Medium",
-    "High"
-]
+    def test_rule_based_high_risk_keywords(self):
+        result = self.agent._rule_based_analysis(
+            "The company faces a lawsuit and regulatory action."
+        )
+        self.assertEqual(result["risk"], "High")
 
-assert 0 <= result["confidence"] <= 100
 
-assert len(result["reasoning"]) > 0
-
-print("\nPASS")
+if __name__ == "__main__":
+    unittest.main()

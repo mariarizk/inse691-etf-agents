@@ -15,6 +15,7 @@ class SentimentAgent:
 
     def __init__(self):
 
+        # Lazy-ready client: rule-based path works without an API key.
         self.gemini = GeminiClient()
 
     # =====================================================
@@ -51,6 +52,9 @@ Return ONLY valid JSON:
     "tool": "llm_sentiment_analysis"
 }}
 """
+
+        if not self.gemini.available:
+            return "rule_based_sentiment_analysis"
 
         try:
 

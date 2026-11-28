@@ -70,6 +70,9 @@ Return ONLY valid JSON:
 }}
 """
 
+        if not self.gemini.available:
+            return "fallback_explanation"
+
         try:
 
             response = self.gemini.generate(
